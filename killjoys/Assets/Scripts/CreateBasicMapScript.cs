@@ -7,11 +7,14 @@ public class CreateBasicMapScript : MonoBehaviour
 {
     public float cellInterval = 0.5f;
 
-    public float gridXSize = 10;
-    public float gridYSize = 10;
+    private float gridXSize = 10;
+    private float gridYSize = 10;
     // Start is called before the first frame update
     void Start()
     {
+        gridXSize = GameManager.Instance.gridXSize;
+        gridYSize = GameManager.Instance.gridYSize;
+
         // creates grid
         for (float x = -gridXSize; x < gridXSize; x += cellInterval * 2)
         {
