@@ -25,7 +25,8 @@ public class CreateBasicMapScript : MonoBehaviour
                 tile.transform.parent = transform;
                 tile.name = "Tile" + x + "," + y;
                 tile.transform.position = new Vector3(x, y, 0);
-              //  Debug.Log("Making tile " + x + "," + y);
+                GameManager.Instance.AddTileToGrid(tile);
+                //  Debug.Log("Making tile " + x + "," + y);
 
             }
         }
@@ -39,6 +40,8 @@ public class CreateBasicMapScript : MonoBehaviour
                 tile.transform.parent = transform;
                 tile.name = "Tile" + x + "," + y;
                 tile.transform.position = new Vector3(x, y, 0);
+
+                GameManager.Instance.AddTileToGrid(tile);
                // Debug.Log("Making tile " + x + "," + y);
 
             }
@@ -54,22 +57,22 @@ public class CreateBasicMapScript : MonoBehaviour
         GameObject party = Instantiate(Resources.Load("Prefabs/Players/Party_Poison", typeof(GameObject))) as GameObject;
         party.transform.position = new Vector3(0, 0, 0);
 
-        GameManager.Instance.addPlayer("Party_Poison", party);
+        GameManager.Instance.AddPlayer("Party_Poison", party);
 
         GameObject ghoul = Instantiate(Resources.Load("Prefabs/Players/Fun_Ghoul", typeof(GameObject))) as GameObject;
         ghoul.transform.position = new Vector3(0, -1, 0);
 
-        GameManager.Instance.addPlayer("Fun_Ghoul", ghoul);
+        GameManager.Instance.AddPlayer("Fun_Ghoul", ghoul);
 
         GameObject jet = Instantiate(Resources.Load("Prefabs/Players/Jet_Star", typeof(GameObject))) as GameObject;
         jet.transform.position = new Vector3(-1, -1, 0);
 
-        GameManager.Instance.addPlayer("Jet_Star", jet);
+        GameManager.Instance.AddPlayer("Jet_Star", jet);
 
         GameObject kobra = Instantiate(Resources.Load("Prefabs/Players/Kobra_Kid", typeof(GameObject))) as GameObject;
         kobra.transform.position = new Vector3(1, -1, 0);
 
-        GameManager.Instance.addPlayer("Kobra_Kid", kobra);
+        GameManager.Instance.AddPlayer("Kobra_Kid", kobra);
 
     }
 

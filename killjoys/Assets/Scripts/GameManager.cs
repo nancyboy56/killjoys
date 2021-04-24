@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
     public int gridYSize = 10;
 
     public int speed = 10;
+
+    public float cellInterval = 0.5f;
      
 
     private void Awake()
@@ -35,22 +37,40 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+     void Start()
+    {
+        for(int i =0; i <= gridYSize*8; i++)
+        {
+            gridNodes.Add(new List<Node>());
+        }
+    }
 
-    
 
     public void AddTileToGrid(GameObject tile)
     {
+        //Debug.Log(tile);
         gridGO.Add(tile);
         float x = tile.transform.position.x;
         float y = tile.transform.position.y;
-        gridNodes[(int)y+gridYSize].Add( new Node(new System.Numerics.Vector2(x+gridXSize,y+gridYSize), true, 1f));
+        
+
+        //ading to grid nodes, with no decimals 
+        System.Numerics.Vector2 vec = GetIntVector(x + gridXSize, y + gridYSize);
+        Debug.Log(vec);
+        gridNodes[(int)vec.Y].Add( new Node(vec, true, 1f));
     }
 
     public Queue<UnityEngine.Vector2> GetShortestPath(UnityEngine.Vector2 start, UnityEngine.Vector2 end)
     {
+        //get vectors in postive and whole numbers
+        System.Numerics.Vector2 startIntVec = GetIntVector(start.x+ gridXSize, start.y+gridYSize);
+        System.Numerics.Vector2 endIntVec = GetIntVector(end.x + gridXSize, end.y + gridYSize);
+
+        //do a star
         Astar astar = new Astar(gridNodes);
-        Stack<Node> pathStack  = astar.FindPath(new System.Numerics.Vector2(start.x+gridXSize, start.y+ gridYSize), 
-            new System.Numerics.Vector2(end.x+ gridYSize, end.y + gridYSize));
+        Stack<Node> pathStack  = astar.FindPath(startIntVec, endIntVec);
+
+
         Queue<UnityEngine.Vector2> path = new Queue<UnityEngine.Vector2>();
         List<Node> nodePrint = new List<Node>();
         while (pathStack.Count != 0)
@@ -62,11 +82,11 @@ public class GameManager : MonoBehaviour {
 
         }
 
-        printPath(nodePrint);
+        PrintPath(nodePrint);
         return path;
     }
 
-    private void printPath(List<Node> nodes)
+    private void PrintPath(List<Node> nodes)
     {
         foreach(Node n in nodes)
         {
@@ -75,17 +95,26 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    public List<GameObject> getGrid()
+    public List<GameObject> GetGrid()
     {
         return gridGO;
     }
 
-    public void addPlayer(string name, GameObject go)
+    private System.Numerics.Vector2 GetIntVector(float x, float y)
+    {
+        float value = 1 / cellInterval;
+        x *= value;
+        y *= value*2;
+        return new System.Numerics.Vector2(x, y);
+    }
+    
+
+    public void AddPlayer(string name, GameObject go)
     {
         players.Add(name, go);
     }
 
-    public Dictionary<string, GameObject> getPlayers()
+    public Dictionary<string, GameObject> GetPlayers()
     {
         return players;
     }
