@@ -44,6 +44,33 @@ public class CreateBasicMapScript : MonoBehaviour
             }
         }
 
+        swapnPlayers();
+
+
+    }
+
+    private void swapnPlayers()
+    {
+        GameObject party = Instantiate(Resources.Load("Prefabs/Players/Party_Poison", typeof(GameObject))) as GameObject;
+        party.transform.position = new Vector3(0, 0, 0);
+
+        GameManager.Instance.addPlayer("Party_Poison", party);
+
+        GameObject ghoul = Instantiate(Resources.Load("Prefabs/Players/Fun_Ghoul", typeof(GameObject))) as GameObject;
+        ghoul.transform.position = new Vector3(0, -1, 0);
+
+        GameManager.Instance.addPlayer("Fun_Ghoul", ghoul);
+
+        GameObject jet = Instantiate(Resources.Load("Prefabs/Players/Jet_Star", typeof(GameObject))) as GameObject;
+        jet.transform.position = new Vector3(-1, -1, 0);
+
+        GameManager.Instance.addPlayer("Jet_Star", jet);
+
+        GameObject kobra = Instantiate(Resources.Load("Prefabs/Players/Kobra_Kid", typeof(GameObject))) as GameObject;
+        kobra.transform.position = new Vector3(1, -1, 0);
+
+        GameManager.Instance.addPlayer("Kobra_Kid", kobra);
+
     }
 
     // Update is called once per frame

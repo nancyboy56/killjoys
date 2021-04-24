@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 
     public int gridYSize = 10;
 
+    public int speed = 10;
      
 
     private void Awake()
@@ -45,12 +46,33 @@ public class GameManager : MonoBehaviour {
         gridNodes[(int)y+gridYSize].Add( new Node(new System.Numerics.Vector2(x+gridXSize,y+gridYSize), true, 1f));
     }
 
-    public List<UnityEngine.Vector2> GetShortestPath(UnityEngine.Vector2 start, UnityEngine.Vector2 end)
+    public Queue<UnityEngine.Vector2> GetShortestPath(UnityEngine.Vector2 start, UnityEngine.Vector2 end)
     {
         Astar astar = new Astar(gridNodes);
-        Stack<Node> pathStack  = astar.FindPath(new System.Numerics.Vector2(start.x, start.y), new System.Numerics.Vector2(end.x, end.y));
-        List<UnityEngine.Vector2> path = new List<UnityEngine.Vector2>();
-        return null;
+        Stack<Node> pathStack  = astar.FindPath(new System.Numerics.Vector2(start.x+gridXSize, start.y+ gridYSize), 
+            new System.Numerics.Vector2(end.x+ gridYSize, end.y + gridYSize));
+        Queue<UnityEngine.Vector2> path = new Queue<UnityEngine.Vector2>();
+        List<Node> nodePrint = new List<Node>();
+        while (pathStack.Count != 0)
+        {
+            Node n = pathStack.Pop();
+            UnityEngine.Vector2 v = new UnityEngine.Vector2(n.Position.X, n.Position.Y);
+            path.Enqueue(v);
+            nodePrint.Add(n);
+
+        }
+
+        printPath(nodePrint);
+        return path;
+    }
+
+    private void printPath(List<Node> nodes)
+    {
+        foreach(Node n in nodes)
+        {
+            Debug.Log("Path: Node: "+ n.Position.X +","+ n.Position.Y);
+        }
+
     }
 
     public List<GameObject> getGrid()

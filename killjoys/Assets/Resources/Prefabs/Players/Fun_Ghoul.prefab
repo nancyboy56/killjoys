@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1838400404483218452}
   - component: {fileID: -1285568121353455575}
   - component: {fileID: -690867948235540806}
+  - component: {fileID: 154040881243291456}
   m_Layer: 0
   m_Name: Fun_Ghoul
   m_TagString: Untagged
@@ -121,3 +122,15 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
+--- !u!114 &154040881243291456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231692518156669507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac36d94b85f57ad4196a9c0a66fd0736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
