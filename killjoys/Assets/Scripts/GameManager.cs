@@ -1,6 +1,8 @@
+using AStar;
 using AStarSharp;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Numerics;
 using UnityEngine;
 
@@ -14,7 +16,7 @@ public class GameManager : MonoBehaviour {
 
     private List<GameObject> gridGO = new List<GameObject>();
 
-    private List<List<Node>> gridNodes = new List<List<Node>>();
+    private short[,] gridNodes;
 
     public int gridXSize = 10;
 
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour {
     public int speed = 10;
 
     public float cellInterval = 0.5f;
+
+    private WorldGrid wg;
      
 
     private void Awake()
@@ -39,10 +43,7 @@ public class GameManager : MonoBehaviour {
 
      void Start()
     {
-        for(int i =0; i <= gridYSize*8; i++)
-        {
-            gridNodes.Add(new List<Node>());
-        }
+        gridNodes = new short[80, 80];
     }
 
 
@@ -56,19 +57,40 @@ public class GameManager : MonoBehaviour {
 
         //ading to grid nodes, with no decimals 
         System.Numerics.Vector2 vec = GetIntVector(x + gridXSize, y + gridYSize);
-        Debug.Log(vec);
-        gridNodes[(int)vec.Y].Add( new Node(vec, true, 1f));
+        //Debug.Log(vec);
+        gridNodes[(int) vec.Y, (int) vec.X] = 1;
     }
 
     public Queue<UnityEngine.Vector2> GetShortestPath(UnityEngine.Vector2 start, UnityEngine.Vector2 end)
     {
+        if (wg == null)
+        {
+            wg = new WorldGrid(gridNodes);
+        }
+        
         //get vectors in postive and whole numbers
         System.Numerics.Vector2 startIntVec = GetIntVector(start.x+ gridXSize, start.y+gridYSize);
         System.Numerics.Vector2 endIntVec = GetIntVector(end.x + gridXSize, end.y + gridYSize);
 
+        Queue<UnityEngine.Vector2> path = new Queue<UnityEngine.Vector2>();
+        
+        PathFinder pf = new PathFinder(wg);
+        Point[] pathPoints = pf.FindPath(new System.Drawing.Point((int)startIntVec.X, (int)startIntVec.Y),
+            new Point((int)endIntVec.X, (int)endIntVec.Y));
+
+        float value = cellInterval * 4;
+        foreach (Point p  in pathPoints)
+        {
+            path.Enqueue(new UnityEngine.Vector2(p.X/value -gridXSize, p.Y/(value*2) -gridYSize));
+            
+        }
+
+        //PrintPath(pathPoints);
+
+
         //do a star
-        Astar astar = new Astar(gridNodes);
-        Stack<Node> pathStack  = astar.FindPath(startIntVec, endIntVec);
+        //Astar astar = new Astar(gridNodes);
+        /*Stack<Node> pathStack  = astar.FindPath(startIntVec, endIntVec);
 
 
         Queue<UnityEngine.Vector2> path = new Queue<UnityEngine.Vector2>();
@@ -82,15 +104,20 @@ public class GameManager : MonoBehaviour {
 
         }
 
-        PrintPath(nodePrint);
+        PrintPath(nodePrint);*/
         return path;
     }
 
-    private void PrintPath(List<Node> nodes)
+   
+
+    private void PrintPath(Point[] nodes)
     {
-        foreach(Node n in nodes)
+        float value = cellInterval * 4;
+        foreach (Point n in nodes)
         {
-            Debug.Log("Path: Node: "+ n.Position.X +","+ n.Position.Y);
+            float x = n.X / value - gridXSize;
+            float y = (n.Y / (value * 2)) - gridYSize;
+            Debug.Log("Path Node: "+ x + ","+ y);
         }
 
     }

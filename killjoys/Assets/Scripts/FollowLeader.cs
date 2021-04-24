@@ -1,7 +1,7 @@
 using AStarSharp;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Threading;
 using UnityEngine;
 
 public class FollowLeader : MonoBehaviour
@@ -11,6 +11,7 @@ public class FollowLeader : MonoBehaviour
     private Vector2 previousPosition;
     private Vector2 wayPoint;
     private Vector2 leaderPosition;
+    private Vector2 currentPostion;
 
     private Rigidbody2D rb;
     private bool firstTime = true;
@@ -21,68 +22,116 @@ public class FollowLeader : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+  
 
-        GameManager.Instance.GetShortestPath(new Vector2(1, 1), new Vector2(5, 5));
-        /*Debug.Log(previousPosition);
-        Vector2 leaderPosition = GameManager.Instance.getPlayers()["Party_Poison"].transform.position;
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        //Debug.Log("wowow");
+
+        //GameManager.Instance.GetShortestPath(new Vector2(1, 1), new Vector2(5, 5));
+        //Debug.Log("prev:" + previousPosition);
+        leaderPosition = GameManager.Instance.GetPlayers()["Party_Poison"].transform.position;
+        currentPostion = transform.position;
+
+        float leaderX = leaderPosition.x;
+        float leaderY = leaderPosition.y;
+        float x = transform.position.x;
+        float y = transform.position.y;
+
         if (firstTime)
         {
-            Debug.Log("no prev");
-            FindPath();
+            //Debug.Log("no prev");
+            StartCoroutine("FindPath");
             firstTime = false;
 
-         }
-        else if(pathToLeader.Count!=0)
+        }
+
+        if (!(x <= leaderX + 1 && x >= leaderX - 1 && y <= leaderY + 1 && y >= leaderY - 1))
         {
-            Debug.Log("has prev and a path");
-            if (System.Math.Floor(previousPosition.x) == System.Math.Floor(leaderPosition.x) && 
-                System.Math.Floor(previousPosition.y) == System.Math.Floor(leaderPosition.y))
+           
+             if (pathToLeader.Count != 0)
             {
-                Debug.Log("has prev and a path and leader hasnt moved");
-                if (System.Math.Floor(transform.position.x) == System.Math.Floor(wayPoint.x) &&
-                System.Math.Floor(transform.position.y) == System.Math.Floor(wayPoint.y))
+                //Debug.Log("has prev and a path");
+
+                // and the charcater is near the way point
+                if (x <= wayPoint.x + 0.5 && x >= wayPoint.x - 0.5 && y <= wayPoint.y + 0.5 && y >= wayPoint.y - 0.5)
                 {
-                    Debug.Log("if way point isnt this position");
-                    findWayPoint();
+                    //Debug.Log("if way point isnt this position");
+                    FindPath();
                 }
-                    
+                // if the leader hasnt moved 
+                 else if (System.Math.Floor(previousPosition.x) == System.Math.Floor(leaderPosition.x) &&
+                    System.Math.Floor(previousPosition.y) == System.Math.Floor(leaderPosition.y))
+                {
+                    //Debug.Log("has prev and a path and leader hasnt moved");
+                    FindPath();
+
+                }
+                else
+                {
+                    //Debug.Log("find path again");
+                    FindPath();
+                }
             }
             else
             {
                 FindPath();
             }
+
+            Debug.Log("wp: " + wayPoint);
+            // Debug.Log("Leader postion:" + leaderPosition);
+            if (!wayPoint.Equals(leaderPosition))
+            {
+               // Debug.Log("move!!");
+                // Vector3 Vect = new Vector3(wayPoint.x, wayPoint.y, 0);
+                //   tempVect = tempVect.normalized * GameManager.Instance.speed * Time.deltaTime;
+                Vector2 v = wayPoint - (Vector2)transform.position;
+                rb.velocity = v;
+            }
+
         }
-        
-        Debug.Log("wp" + wayPoint);
-       // Debug.Log("Leader postion:" + leaderPosition);
-        if (!wayPoint.Equals(leaderPosition))
+        else
         {
-            Debug.Log("move!!");
-            Vector3 Vect = new Vector3(wayPoint.x, wayPoint.y, 0);
-            //   tempVect = tempVect.normalized * GameManager.Instance.speed * Time.deltaTime;
-            rb.velocity = wayPoint; 
-        }*/
+            // Debug.Log("dont move");
+            
+            rb.velocity = Vector2.zero;
+
+        }
+
+
+       
 
     }
 
-    
+
 
     private void FindPath()
     {
         previousPosition = leaderPosition;
-        pathToLeader = GameManager.Instance.GetShortestPath(transform.position, leaderPosition);
+
+        
+        Thread thread1 = new Thread(findShorPAth);
+        thread1.Start();
         findWayPoint();
+
+       
+    }
+
+    private void findShorPAth()
+    {
+        pathToLeader = GameManager.Instance.GetShortestPath(currentPostion, leaderPosition);
     }
 
     private void findWayPoint()
     {
-        while (System.Math.Floor(transform.position.x) == System.Math.Floor(wayPoint.x) &&
-                System.Math.Floor(transform.position.y) == System.Math.Floor(wayPoint.y))
+        if((pathToLeader.Count != 0))
         {
             wayPoint = pathToLeader.Dequeue();
         }
+
+        
+
+
     }
 }
