@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridXSize: 10
   gridYSize: 10
-  speed: 10
+  speed: 2
   cellInterval: 0.5
 --- !u!4 &1274485736
 Transform:
