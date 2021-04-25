@@ -1,9 +1,15 @@
 using AStarSharp;
 using System.Collections;
 using System.Collections.Generic;
+
 using System.Threading;
+using UnityEditor.Timeline;
 using UnityEngine;
 
+public enum Direction
+{
+    Left, Middle, Right
+}
 public class FollowLeader : MonoBehaviour
 {
 
@@ -15,14 +21,56 @@ public class FollowLeader : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool firstTime = true;
+
+    public Direction dir = Direction.Left;
+
+    private bool move = false;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-
+        leaderPosition = GameManager.Instance.GetPlayers()["Party_Poison"].transform.position;
+        currentPostion = transform.position;
+        previousPosition = leaderPosition;
     }
 
-  
+    void Update()
+    {
+        leaderPosition = GameManager.Instance.GetPlayers()["Party_Poison"].transform.position;
+        currentPostion = transform.position;
+
+        float leaderX = leaderPosition.x;
+        float leaderY = leaderPosition.y;
+
+        float x = transform.position.x;
+        float y = transform.position.y;
+
+        float preX = previousPosition.x;
+        float preY = previousPosition.y;
+
+
+        //if leader postion has changed 
+        if (!(preX <= leaderX + 1 && x >= preX - 1 && preY <= leaderY + 1 && preY >= leaderY - 1))
+        {
+            findShortPath();
+            move = true;
+        }
+
+        // if the player is it 
+        if (x <= wayPoint.x + 0.5 && x >= wayPoint.x - 0.5 && y <= wayPoint.y + 0.5 && y >= wayPoint.y - 0.5)
+        {
+
+        }
+
+
+            //if no path then do a star
+            //if the leader has moved do a star
+            // should the charcter move
+
+            previousPosition = leaderPosition;
+    }
+
+
 
     // Update is called once per frame
     void FixedUpdate()
@@ -108,18 +156,26 @@ public class FollowLeader : MonoBehaviour
 
     private void FindPath()
     {
-        previousPosition = leaderPosition;
+        //previousPosition = leaderPosition;
 
         
-        Thread thread1 = new Thread(findShorPAth);
+       /* Thread thread1 = new Thread(findShortPath);
         thread1.Start();
-        findWayPoint();
-
-       
+        findWayPoint();*/
     }
 
-    private void findShorPAth()
+    private void findShortPath()
     {
+        Vector2 newEnd =leaderPosition;
+        newEnd.y -= 0.5f;
+        if (dir.Equals(Direction.Left))
+        {
+           
+        } else if (dir.Equals(Direction.Middle)) {
+
+        } else if (dir.Equals(Direction.Right)){
+
+        }
         pathToLeader = GameManager.Instance.GetShortestPath(currentPostion, leaderPosition);
     }
 
@@ -129,9 +185,6 @@ public class FollowLeader : MonoBehaviour
         {
             wayPoint = pathToLeader.Dequeue();
         }
-
-        
-
 
     }
 }

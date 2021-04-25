@@ -9,6 +9,8 @@ public class PlayerMovment : MonoBehaviour
 
     private Rigidbody2D rb;
     private float speed;
+
+    private Vector2 movement;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,16 +18,22 @@ public class PlayerMovment : MonoBehaviour
         speed = GameManager.Instance.speed;
     }
 
+    void Update()
+    {
+
+        // this could be diffeent now since im watching a tutorial from 2019
+        // if it acts werid search again
+        movement.x= Input.GetAxisRaw("Horizontal");
+        movement.y= Input.GetAxisRaw("Vertical");
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
 
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        rb.MovePosition(rb.position + movement.normalized * speed * Time.fixedDeltaTime);
 
-        Vector3 tempVect = new Vector3(h, v, 0);
-        tempVect = tempVect.normalized * speed ;
-        rb.velocity =  tempVect;
+       
 
 
     }

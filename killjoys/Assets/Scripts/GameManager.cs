@@ -3,7 +3,7 @@ using AStarSharp;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Numerics;
+
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -15,21 +15,15 @@ public class GameManager : MonoBehaviour {
 
     private Dictionary<string, GameObject> players = new Dictionary<string, GameObject>();
 
-    private List<GameObject> gridGO = new List<GameObject>();
-
-    private short[,] gridNodes;
-
-    public int gridXSize = 10;
-
-    public int gridYSize = 10;
-
     public int speed = 10;
 
-    public float cellInterval = 0.5f;
+    private GameObject tm;
 
-    private WorldGrid wg;
+    private Vector2 mapSize;
 
-    private Tilemap tm;
+    Pathfinding pf;
+
+    public Dictionary<string, WorldTile> worldTiles = new Dictionary<string, WorldTile>();
 
     private void Awake()
     {
@@ -45,15 +39,20 @@ public class GameManager : MonoBehaviour {
 
      void Start()
     {
-        gridNodes = new short[80, 80];
+        //gridNodes = new short[80, 80];
         tm = GameObject.Find("Ground");
+        Tilemap map = tm.GetComponent<Tilemap>();
 
+        mapSize = new UnityEngine.Vector2(map.size.x, map.size.y);
+        Debug.Log("map size" + mapSize);
+
+        createWorldTile();
     }
 
 
     public void AddTileToGrid(GameObject tile)
     {
-        //Debug.Log(tile);
+        /*//Debug.Log(tile);
         gridGO.Add(tile);
         float x = tile.transform.position.x;
         float y = tile.transform.position.y;
@@ -62,82 +61,64 @@ public class GameManager : MonoBehaviour {
         //ading to grid nodes, with no decimals 
         System.Numerics.Vector2 vec = GetIntVector(x + gridXSize, y + gridYSize);
         //Debug.Log(vec);
-        gridNodes[(int) vec.Y, (int) vec.X] = 1;
+       // gridNodes[(int) vec.Y, (int) vec.X] = 1;*/
     }
 
-    public Queue<UnityEngine.Vector2> GetShortestPath(UnityEngine.Vector2 start, UnityEngine.Vector2 end)
+
+    private void createWorldTile()
     {
-        if (wg == null)
-        {
-            wg = new WorldGrid(gridNodes);
-        }
-        
-        //get vectors in postive and whole numbers
-        System.Numerics.Vector2 startIntVec = GetIntVector(start.x+ gridXSize, start.y+gridYSize);
-        System.Numerics.Vector2 endIntVec = GetIntVector(end.x + gridXSize, end.y + gridYSize);
+        Tilemap map = tm.GetComponent<Tilemap>();
 
-        Queue<UnityEngine.Vector2> path = new Queue<UnityEngine.Vector2>();
+        TileBase[] tileArray = map.GetTilesBlock( new BoundsInt(-100, -100, -2, 1000, 1000, 10) );
         
-        PathFinder pf = new PathFinder(wg);
-        Point[] pathPoints = pf.FindPath(new System.Drawing.Point((int)startIntVec.X, (int)startIntVec.Y),
-            new Point((int)endIntVec.X, (int)endIntVec.Y));
 
-        float value = cellInterval * 4;
-        foreach (Point p  in pathPoints)
+        for(int y =-10; y < 50; y++)
         {
-            path.Enqueue(new UnityEngine.Vector2(p.X/value -gridXSize, p.Y/(value*2) -gridYSize));
+            for(int x=-10; x < 50; x++)
             
+                if(map.HasTile(new Vector3Int(x, y, 0)))
+                {
+                    worldTiles.Add(x+","+y, new WorldTile(true, x, y));
+
+                }
+            }
         }
+    
 
-        //PrintPath(pathPoints);
+    public Vector3 CellToPosition(int x, int y)
+    {
+        Tilemap map = tm.GetComponent<Tilemap>();
+        Vector3 pos = map.CellToWorld(new Vector3Int(x, y, 0));
+        return new Vector3(pos.x, pos.y + 0.5f, pos.z);
+    }
 
+    public Vector3Int PositionToCell(Vector2 pos)
+    {
+        Tilemap map = tm.GetComponent<Tilemap>();
+        Vector3 newPos = new Vector2(pos.x, pos.y - 0.5f);
+        return map.WorldToCell(newPos);
 
-        //do a star
-        //Astar astar = new Astar(gridNodes);
-        /*Stack<Node> pathStack  = astar.FindPath(startIntVec, endIntVec);
+    }
 
+    public Queue<Vector2> GetShortestPath(Vector2 start, Vector2 end)
+    {
+        Vector3Int newStart = PositionToCell(start);
+        Vector3Int newEnd = PositionToCell(end);
 
-        Queue<UnityEngine.Vector2> path = new Queue<UnityEngine.Vector2>();
-        List<Node> nodePrint = new List<Node>();
-        while (pathStack.Count != 0)
+        List<WorldTile> pathTiles = pf.FindPathFromWorldPos(worldTiles[newStart.x + "," + newStart.y],
+            worldTiles[newEnd.x + "," + newEnd.y]);
+
+        Queue<Vector2> path = new Queue<Vector2>();
+
+        foreach(WorldTile tile in pathTiles)
         {
-            Node n = pathStack.Pop();
-            UnityEngine.Vector2 v = new UnityEngine.Vector2(n.Position.X, n.Position.Y);
-            path.Enqueue(v);
-            nodePrint.Add(n);
-
+            path.Enqueue(CellToPosition(tile.gridX, tile.gridY));
         }
-
-        PrintPath(nodePrint);*/
         return path;
     }
 
    
 
-    private void PrintPath(Point[] nodes)
-    {
-        float value = cellInterval * 4;
-        foreach (Point n in nodes)
-        {
-            float x = n.X / value - gridXSize;
-            float y = (n.Y / (value * 2)) - gridYSize;
-            Debug.Log("Path Node: "+ x + ","+ y);
-        }
-
-    }
-
-    public List<GameObject> GetGrid()
-    {
-        return gridGO;
-    }
-
-    private System.Numerics.Vector2 GetIntVector(float x, float y)
-    {
-        float value = 1 / cellInterval;
-        x *= value;
-        y *= value*2;
-        return new System.Numerics.Vector2(x, y);
-    }
     
 
     public void AddPlayer(string name, GameObject go)

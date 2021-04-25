@@ -11,7 +11,7 @@ public class SpawnCharcaters : MonoBehaviour
         party.transform.position = new Vector3(0, 0, 0);
 
         GameManager.Instance.AddPlayer("Party_Poison", party);
-
+/*
         GameObject ghoul = Instantiate(Resources.Load("Prefabs/Players/Fun_Ghoul", typeof(GameObject))) as GameObject;
         ghoul.transform.position = new Vector3(0, -1, 0);
 
@@ -25,7 +25,7 @@ public class SpawnCharcaters : MonoBehaviour
         GameObject kobra = Instantiate(Resources.Load("Prefabs/Players/Kobra_Kid", typeof(GameObject))) as GameObject;
         kobra.transform.position = new Vector3(1, -1, 0);
 
-        GameManager.Instance.AddPlayer("Kobra_Kid", kobra);
+        GameManager.Instance.AddPlayer("Kobra_Kid", kobra);*/
     }
 
     // Update is called once per frame

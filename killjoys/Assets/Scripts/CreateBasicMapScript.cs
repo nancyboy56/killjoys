@@ -12,7 +12,7 @@ public class CreateBasicMapScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gridXSize = GameManager.Instance.gridXSize;
+     /*   gridXSize = GameManager.Instance.gridXSize;
         gridYSize = GameManager.Instance.gridYSize;
 
         // creates grid
@@ -48,7 +48,7 @@ public class CreateBasicMapScript : MonoBehaviour
         }
 
         swapnPlayers();
-
+*/
 
     }
 
