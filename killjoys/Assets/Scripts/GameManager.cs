@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
 
     private GameObject tm;
 
-    private Vector2 mapSize;
+   
 
     private Pathfinding pf = new Pathfinding();
 
@@ -38,19 +38,14 @@ public class GameManager : MonoBehaviour {
     }
 
      void Start()
-    {
-        
+     { 
         tm = GameObject.Find("Ground");
         Tilemap map = tm.GetComponent<Tilemap>();
 
         mapSize = new Vector2(map.size.x, map.size.y);
-        //Debug.Log("map size" + mapSize);
-
+        
         createWorldTile();
-    }
-
-
-
+     }
 
     private void createWorldTile()
     {
@@ -139,9 +134,7 @@ public class GameManager : MonoBehaviour {
     {
         Vector3Int newStart = PositionToCell(start);
         Vector3Int newEnd = PositionToCell(end);
-        //Debug.Log("start cell:" + worldTiles[newStart.x + "," + newStart.y].gridX + "," + worldTiles[newStart.x + "," + newStart.y].gridY);
-        //Debug.Log("end cell:" + worldTiles[newEnd.x + "," + newEnd.y].gridX +","+ worldTiles[newEnd.x + "," + newEnd.y].gridY);
-
+       
         List<WorldTile> pathTiles = pf.FindPathFromWorldPos(worldTiles[newStart.x + "," + newStart.y],
             worldTiles[newEnd.x + "," + newEnd.y]);
         Queue<Vector2> path = new Queue<Vector2>();
@@ -149,11 +142,12 @@ public class GameManager : MonoBehaviour {
         foreach(WorldTile tile in pathTiles)
         {
             path.Enqueue(CellToPosition(tile.gridX, tile.gridY));
-            //Debug.Log("PAth:" + tile.gridX+","+tile.gridY);
+            
         }
         return path;
     }
 
+    //for debuging
     private void spawnCirclesTiles(int x, int y)
     {
 
@@ -162,9 +156,6 @@ public class GameManager : MonoBehaviour {
         party.name = "circle " + x + "," + y;
 
     }
-
-
-
 
 
     public void AddPlayer(string name, GameObject go)
