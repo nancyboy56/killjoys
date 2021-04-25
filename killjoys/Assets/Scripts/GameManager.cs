@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour {
         Tilemap map = tm.GetComponent<Tilemap>();
 
         mapSize = new Vector2(map.size.x, map.size.y);
-        Debug.Log("map size" + mapSize);
+        //Debug.Log("map size" + mapSize);
 
         createWorldTile();
     }
@@ -56,6 +56,8 @@ public class GameManager : MonoBehaviour {
     {
         Tilemap map = tm.GetComponent<Tilemap>();
 
+        Tilemap wallMap = GameObject.Find("Walls").GetComponent<Tilemap>();
+
         for (int y = -30; y < 50; y++)
         {
             for (int x = -30; x < 50; x++)
@@ -63,21 +65,44 @@ public class GameManager : MonoBehaviour {
                 if (map.HasTile(new Vector3Int(x, y, 0)))
                 {
                     worldTiles.Add(x + "," + y, new WorldTile(true, x, y));
-                    spawnCirclesTiles(x, y);
+                    //spawnCirclesTiles(x, y);
                    
                 }
             }
         }
 
-        foreach(WorldTile tile in worldTiles.Values)
+        for (int y = -100; y < 100; y++)
+        {
+            for (int x = -100; x < 100; x++)
+            {
+                if (wallMap.HasTile(new Vector3Int(x, y, 0)))
+                {
+                    Debug.Log("wow");
+                    worldTiles[x + "," + y].walkable = false;
+                    spawnCirclesTiles(x, y);
+
+                }
+            }
+        }
+
+
+        foreach (WorldTile tile in worldTiles.Values)
         {
             WorldTile wt = worldTiles[tile.gridX + "," + tile.gridY];
-            wt.myNeighbours = getNeighbours(tile.gridX, tile.gridY);
-            foreach (WorldTile neighbours in wt.myNeighbours)
+            if (wt.walkable)
             {
-                if (!neighbours.walkable)
-                    wt.specialCost = 10;
+                wt.myNeighbours = getNeighbours(tile.gridX, tile.gridY);
+                foreach (WorldTile neighbours in wt.myNeighbours)
+                {
+                    if (!neighbours.walkable)
+                        wt.specialCost = 10;
+                }
             }
+            else
+            {
+                wt.myNeighbours = new List<WorldTile>();
+            }
+            
         }
     }
     
@@ -155,50 +180,50 @@ public class GameManager : MonoBehaviour {
         //7. left = x - 1;
         //8. left up = x - 1, y + 1;
 
-        if (worldTiles.ContainsKey(x+","+ (y + 1)))
+        if (worldTiles.ContainsKey(x+","+ (y + 1)) && worldTiles[x + "," + (y + 1)].walkable)
         {
             WorldTile wt1 = worldTiles[x+","+ (y + 1)];
             myNeighbours.Add(wt1);
         }
 
-        if (worldTiles.ContainsKey((x + 1)+","+ (y + 1)))
+        if (worldTiles.ContainsKey((x + 1)+","+ (y + 1)) && worldTiles[(x + 1) + "," + (y + 1)].walkable)
         {
             WorldTile wt2 = worldTiles[(x + 1)+","+(y + 1)];
             myNeighbours.Add(wt2);
         }
 
-        if (worldTiles.ContainsKey((x + 1)+","+ y))
+        if (worldTiles.ContainsKey((x + 1)+","+ y) && worldTiles[(x + 1) + "," + y].walkable)
         {
             WorldTile wt3 = worldTiles[(x + 1)+","+ y];
             myNeighbours.Add(wt3);
         }
 
-        if (worldTiles.ContainsKey((x + 1)+","+ (y - 1)))
+        if (worldTiles.ContainsKey((x + 1)+","+ (y - 1)) && worldTiles[(x + 1) + "," + (y - 1)].walkable)
         {
             WorldTile wt4 = worldTiles[(x + 1)+","+ (y - 1)];
             myNeighbours.Add(wt4);
         }
 
-        if (worldTiles.ContainsKey(x+","+(y - 1)))
+        if (worldTiles.ContainsKey(x+","+(y - 1)) && worldTiles[x + "," + (y - 1)].walkable)
         {
-            WorldTile wt5 = worldTiles[x+"," +(y - 1)];
+            WorldTile wt5 = worldTiles[x+"," +(y - 1) ];
             myNeighbours.Add(wt5);
         }
 
 
-        if (worldTiles.ContainsKey((x - 1)+","+ (y - 1)))
+        if (worldTiles.ContainsKey((x - 1)+","+ (y - 1)) && worldTiles[(x - 1) + "," + (y - 1)].walkable)
         {
             WorldTile wt6 = worldTiles[(x - 1)+","+(y - 1)];
             myNeighbours.Add(wt6);
         }
 
-        if (worldTiles.ContainsKey((x - 1)+","+ y))
+        if (worldTiles.ContainsKey((x - 1)+","+ y) && worldTiles[(x - 1) + "," + y].walkable)
         {
             WorldTile wt7 = worldTiles[(x - 1)+","+ y];
             myNeighbours.Add(wt7);
         }
 
-        if (worldTiles.ContainsKey((x - 1)+","+ (y + 1)))
+        if (worldTiles.ContainsKey((x - 1)+","+ (y + 1)) && worldTiles[(x - 1) + "," + (y + 1)].walkable)
         {
             WorldTile wt8 = worldTiles[(x - 1)+","+ (y + 1)];
             myNeighbours.Add(wt8);
