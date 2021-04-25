@@ -65,26 +65,39 @@ public class GameManager : MonoBehaviour {
                 if (map.HasTile(new Vector3Int(x, y, 0)))
                 {
                     worldTiles.Add(x + "," + y, new WorldTile(true, x, y));
-                    //spawnCirclesTiles(x, y);
+                   // spawnCirclesTiles(x, y);
                    
                 }
             }
         }
 
-        for (int y = -100; y < 100; y++)
+        for (int a = -30; a < 50; a++)
         {
-            for (int x = -100; x < 100; x++)
+           // Debug.Log("wow2");
+            for (int b = -30; b < 50; b++)
             {
-                if (wallMap.HasTile(new Vector3Int(x, y, 0)))
+                //Debug.Log("wow1");
+                //spawnCirclesTiles(b, a);
+                if (wallMap.HasTile(new Vector3Int(b, a, 0)))
                 {
-                    Debug.Log("wow");
-                    worldTiles[x + "," + y].walkable = false;
-                    spawnCirclesTiles(x, y);
+                    //Debug.Log("wow");
+                    if(worldTiles.ContainsKey(b + "," + a)){
+                        worldTiles[b + "," + a].walkable = false;
+                        //spawnCirclesTiles(b, a);
+                    }
+                    else
+                    {
+                        //Debug.Log("doesnt exist" + b + ","+a);
+                        worldTiles.Add(b + "," + a, new WorldTile(false, b, a));
+                        spawnCirclesTiles(b, a);
+                    }
+
 
                 }
             }
         }
 
+       
 
         foreach (WorldTile tile in worldTiles.Values)
         {
