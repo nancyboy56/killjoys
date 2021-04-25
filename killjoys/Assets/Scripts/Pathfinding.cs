@@ -13,7 +13,7 @@ public class Pathfinding : MonoBehaviour{
         http://www.jgallant.com/nodal-pathfinding-in-unity-2d-with-a-in-non-grid-based-games/
     *************/
 
-    public Map map; //So we can access grid functions
+    /*public Map map; //So we can access grid functions
 
     Vector3 lastDirection = Vector3.zero;
     List<WorldTile> reachedPathTiles = new List<WorldTile>();
@@ -130,5 +130,5 @@ public class Pathfinding : MonoBehaviour{
         }
 
         return direction;
-    }
+    }*/
 }

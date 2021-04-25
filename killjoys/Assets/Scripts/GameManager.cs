@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour {
 
@@ -27,7 +28,8 @@ public class GameManager : MonoBehaviour {
     public float cellInterval = 0.5f;
 
     private WorldGrid wg;
-     
+
+    private Tilemap tm;
 
     private void Awake()
     {
@@ -44,6 +46,8 @@ public class GameManager : MonoBehaviour {
      void Start()
     {
         gridNodes = new short[80, 80];
+        tm = GameObject.Find("Ground");
+
     }
 
 
