@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour {
                     {
                         //Debug.Log("doesnt exist" + b + ","+a);
                         worldTiles.Add(b + "," + a, new WorldTile(false, b, a));
-                        spawnCirclesTiles(b, a);
+                        //spawnCirclesTiles(b, a);
                     }
 
 

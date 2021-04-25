@@ -16,7 +16,7 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         Vector3 player = GameManager.Instance.GetPlayers()["Party_Poison"].transform.position;
-        Vector3 camera = new Vector3(player.x, player.y- 3, -5);
+        Vector3 camera = new Vector3(player.x, player.y- 1, -5);
         transform.position = camera;
         
     }
