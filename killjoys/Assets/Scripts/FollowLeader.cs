@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -24,7 +25,7 @@ public class FollowLeader : MonoBehaviour
 
     private bool move = false;
 
-    private int speed;
+    private int speed =2;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +34,7 @@ public class FollowLeader : MonoBehaviour
         currentPostion = transform.position;
         previousPosition = leaderPosition;
 
-        speed = GameManager.Instance.speed;
+        
     }
 
     void Update()
@@ -50,32 +51,31 @@ public class FollowLeader : MonoBehaviour
         float preX = previousPosition.x;
         float preY = previousPosition.y;
 
-
+        Vector2 different = leaderPosition - previousPosition;
         //if leader postion has changed 
-        if (!(preX <= leaderX + 0.5 && x >= preX - 0.5 && 
-            preY <= leaderY + 0.5 && preY >= leaderY - 0.5))
+        if (Math.Abs(different.x) <=0.5 || Math.Abs(different.y) <=0.25 )
         {
             findShortPath();
             move = true;
+            Debug.Log("a star");
         }
-        
 
 
+        Vector2 differentWP = wayPoint - (Vector2)transform.position;
         //if path is finished 
         if (path.Count == 0)
         {
             move = false;
-        }
-        // if the player is within the current waypoint
-        if (x <= wayPoint.x + 0.5 && x >= wayPoint.x - 0.5 && 
-            y <= wayPoint.y + 0.5 && y >= wayPoint.y - 0.5)
+            Debug.Log("dont move");
+        } else if  (Math.Abs(differentWP.x) <= 0.1 || Math.Abs(differentWP.y) <= 0.1)
         {
             findWayPoint();
             move = true;
+            Debug.Log("move to next way point");
         }
-        //if no path then do a star
-        //if the leader has moved do a star
-        // should the charcter move
+        // if the player is within the current waypoint
+
+
         Debug.Log("Waypoint" + wayPoint.x + "," + wayPoint.y);
         previousPosition = leaderPosition;
 
@@ -87,10 +87,23 @@ public class FollowLeader : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
         if (move)
         {
-            rb.MovePosition(rb.position + wayPoint.normalized * speed * Time.fixedDeltaTime);
+            /* Vector3 direction = wayPoint - currentPostion;
+             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+             //rb.velocity= rb.position- wayPoint.normalized * speed * Time.fixedDeltaTime;
+             rb.rotation = angle;
+             direction.Normalize();
+             rb.MovePosition(transform.position+ (direction * 1 * Time.fixedDeltaTime));
+
+             rb.velocity = direction * speed*/
+            Vector2 v = wayPoint - (Vector2)transform.position;
+            rb.velocity = Vector2.ClampMagnitude(rb.velocity + v , speed);
+            transform.up = rb.velocity.normalized;
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
         }
       
     }
@@ -100,14 +113,14 @@ public class FollowLeader : MonoBehaviour
     private void findShortPath()
     {
         Vector2 end =leaderPosition;
-        end.y -= 0.5f;
+        end.y -= 1;
         if (dir.Equals(Direction.Left))
         {
-            end.x += 0.5f;
+            end.x += 1;
         } else if (dir.Equals(Direction.Middle)) {
 
         } else if (dir.Equals(Direction.Right)){
-            end.x -= 0.5f;
+            end.x -= 1;
         }
         path = GameManager.Instance.GetShortestPath(currentPostion, end);
         findWayPoint();
