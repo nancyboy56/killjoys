@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
 
     private Vector2 mapSize;
 
-    Pathfinding pf;
+    private Pathfinding pf = new Pathfinding();
 
     public Dictionary<string, WorldTile> worldTiles = new Dictionary<string, WorldTile>();
 
@@ -39,50 +39,47 @@ public class GameManager : MonoBehaviour {
 
      void Start()
     {
-        //gridNodes = new short[80, 80];
+        
         tm = GameObject.Find("Ground");
         Tilemap map = tm.GetComponent<Tilemap>();
 
-        mapSize = new UnityEngine.Vector2(map.size.x, map.size.y);
+        mapSize = new Vector2(map.size.x, map.size.y);
         Debug.Log("map size" + mapSize);
 
         createWorldTile();
     }
 
 
-    public void AddTileToGrid(GameObject tile)
-    {
-        /*//Debug.Log(tile);
-        gridGO.Add(tile);
-        float x = tile.transform.position.x;
-        float y = tile.transform.position.y;
-        
-
-        //ading to grid nodes, with no decimals 
-        System.Numerics.Vector2 vec = GetIntVector(x + gridXSize, y + gridYSize);
-        //Debug.Log(vec);
-       // gridNodes[(int) vec.Y, (int) vec.X] = 1;*/
-    }
 
 
     private void createWorldTile()
     {
         Tilemap map = tm.GetComponent<Tilemap>();
 
-        TileBase[] tileArray = map.GetTilesBlock( new BoundsInt(-100, -100, -2, 1000, 1000, 10) );
-        
-
-        for(int y =-10; y < 50; y++)
+        for (int y = -30; y < 50; y++)
         {
-            for(int x=-10; x < 50; x++)
-            
-                if(map.HasTile(new Vector3Int(x, y, 0)))
+            for (int x = -30; x < 50; x++)
+            {
+                if (map.HasTile(new Vector3Int(x, y, 0)))
                 {
-                    worldTiles.Add(x+","+y, new WorldTile(true, x, y));
-
+                    worldTiles.Add(x + "," + y, new WorldTile(true, x, y));
+                    spawnCirclesTiles(x, y);
+                   
                 }
             }
         }
+
+        foreach(WorldTile tile in worldTiles.Values)
+        {
+            WorldTile wt = worldTiles[tile.gridX + "," + tile.gridY];
+            wt.myNeighbours = getNeighbours(tile.gridX, tile.gridY);
+            foreach (WorldTile neighbours in wt.myNeighbours)
+            {
+                if (!neighbours.walkable)
+                    wt.specialCost = 10;
+            }
+        }
+    }
     
 
     public Vector3 CellToPosition(int x, int y)
@@ -95,7 +92,7 @@ public class GameManager : MonoBehaviour {
     public Vector3Int PositionToCell(Vector2 pos)
     {
         Tilemap map = tm.GetComponent<Tilemap>();
-        Vector3 newPos = new Vector2(pos.x, pos.y - 0.5f);
+        Vector3 newPos = new Vector2(pos.x, pos.y -0.5f);
         return map.WorldToCell(newPos);
 
     }
@@ -104,22 +101,33 @@ public class GameManager : MonoBehaviour {
     {
         Vector3Int newStart = PositionToCell(start);
         Vector3Int newEnd = PositionToCell(end);
+        //Debug.Log("start cell:" + worldTiles[newStart.x + "," + newStart.y].gridX + "," + worldTiles[newStart.x + "," + newStart.y].gridY);
+        //Debug.Log("end cell:" + worldTiles[newEnd.x + "," + newEnd.y].gridX +","+ worldTiles[newEnd.x + "," + newEnd.y].gridY);
 
         List<WorldTile> pathTiles = pf.FindPathFromWorldPos(worldTiles[newStart.x + "," + newStart.y],
             worldTiles[newEnd.x + "," + newEnd.y]);
-
         Queue<Vector2> path = new Queue<Vector2>();
 
         foreach(WorldTile tile in pathTiles)
         {
             path.Enqueue(CellToPosition(tile.gridX, tile.gridY));
+            //Debug.Log("PAth:" + tile.gridX+","+tile.gridY);
         }
         return path;
     }
 
-   
+    private void spawnCirclesTiles(int x, int y)
+    {
 
-    
+        GameObject party = Instantiate(Resources.Load("Prefabs/circle", typeof(GameObject))) as GameObject;
+        party.transform.position = CellToPosition(x, y);
+        party.name = "circle " + x + "," + y;
+
+    }
+
+
+
+
 
     public void AddPlayer(string name, GameObject go)
     {
@@ -131,5 +139,72 @@ public class GameManager : MonoBehaviour {
         return players;
     }
 
+
+    public List<WorldTile> getNeighbours(int x, int y)
+    {
+        List<WorldTile> myNeighbours = new List<WorldTile>();
+
+        //Need to get all 8 directions
+        // // / / // / /
+        //1. Up = x, y + 1;
+        //2. up-right = x + 1, y + 1;
+        //3. right = x + 1, y;
+        //4. down right = x + 1, y - 1
+        //5. down = x, y - 1;
+        //6. down left = x - 1, y - 1;
+        //7. left = x - 1;
+        //8. left up = x - 1, y + 1;
+
+        if (worldTiles.ContainsKey(x+","+ (y + 1)))
+        {
+            WorldTile wt1 = worldTiles[x+","+ (y + 1)];
+            myNeighbours.Add(wt1);
+        }
+
+        if (worldTiles.ContainsKey((x + 1)+","+ (y + 1)))
+        {
+            WorldTile wt2 = worldTiles[(x + 1)+","+(y + 1)];
+            myNeighbours.Add(wt2);
+        }
+
+        if (worldTiles.ContainsKey((x + 1)+","+ y))
+        {
+            WorldTile wt3 = worldTiles[(x + 1)+","+ y];
+            myNeighbours.Add(wt3);
+        }
+
+        if (worldTiles.ContainsKey((x + 1)+","+ (y - 1)))
+        {
+            WorldTile wt4 = worldTiles[(x + 1)+","+ (y - 1)];
+            myNeighbours.Add(wt4);
+        }
+
+        if (worldTiles.ContainsKey(x+","+(y - 1)))
+        {
+            WorldTile wt5 = worldTiles[x+"," +(y - 1)];
+            myNeighbours.Add(wt5);
+        }
+
+
+        if (worldTiles.ContainsKey((x - 1)+","+ (y - 1)))
+        {
+            WorldTile wt6 = worldTiles[(x - 1)+","+(y - 1)];
+            myNeighbours.Add(wt6);
+        }
+
+        if (worldTiles.ContainsKey((x - 1)+","+ y))
+        {
+            WorldTile wt7 = worldTiles[(x - 1)+","+ y];
+            myNeighbours.Add(wt7);
+        }
+
+        if (worldTiles.ContainsKey((x - 1)+","+ (y + 1)))
+        {
+            WorldTile wt8 = worldTiles[(x - 1)+","+ (y + 1)];
+            myNeighbours.Add(wt8);
+        }
+        
+        return myNeighbours;
+    }
 
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WorldTile : MonoBehaviour{
+public class WorldTile {
     /*************
     Data structure for the worldTiles
     Might need further abstraction because movement nodes share exactsame data with worldTiles

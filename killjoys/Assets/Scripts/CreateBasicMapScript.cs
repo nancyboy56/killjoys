@@ -7,8 +7,7 @@ public class CreateBasicMapScript : MonoBehaviour
 {
     public float cellInterval = 0.5f;
 
-    private float gridXSize = 10;
-    private float gridYSize = 10;
+  
     // Start is called before the first frame update
     void Start()
     {

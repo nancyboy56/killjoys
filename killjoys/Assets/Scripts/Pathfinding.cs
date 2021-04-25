@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Pathfinding : MonoBehaviour{
+public class Pathfinding {
     /*************
     Brains of the pathfinding implementation
     - Code sourced heavily from:

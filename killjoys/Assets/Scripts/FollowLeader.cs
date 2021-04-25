@@ -1,9 +1,7 @@
-using AStarSharp;
+
 using System.Collections;
 using System.Collections.Generic;
 
-using System.Threading;
-using UnityEditor.Timeline;
 using UnityEngine;
 
 public enum Direction
@@ -13,18 +11,20 @@ public enum Direction
 public class FollowLeader : MonoBehaviour
 {
 
-    private Queue<Vector2> pathToLeader = new Queue<Vector2>();
+    private Queue<Vector2> path = new Queue<Vector2>();
     private Vector2 previousPosition;
     private Vector2 wayPoint;
     private Vector2 leaderPosition;
     private Vector2 currentPostion;
 
     private Rigidbody2D rb;
-    private bool firstTime = true;
+    
 
     public Direction dir = Direction.Left;
 
     private bool move = false;
+
+    private int speed;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +32,8 @@ public class FollowLeader : MonoBehaviour
         leaderPosition = GameManager.Instance.GetPlayers()["Party_Poison"].transform.position;
         currentPostion = transform.position;
         previousPosition = leaderPosition;
+
+        speed = GameManager.Instance.speed;
     }
 
     void Update()
@@ -50,24 +52,34 @@ public class FollowLeader : MonoBehaviour
 
 
         //if leader postion has changed 
-        if (!(preX <= leaderX + 1 && x >= preX - 1 && preY <= leaderY + 1 && preY >= leaderY - 1))
+        if (!(preX <= leaderX + 0.5 && x >= preX - 0.5 && 
+            preY <= leaderY + 0.5 && preY >= leaderY - 0.5))
         {
             findShortPath();
             move = true;
         }
+        
 
-        // if the player is it 
-        if (x <= wayPoint.x + 0.5 && x >= wayPoint.x - 0.5 && y <= wayPoint.y + 0.5 && y >= wayPoint.y - 0.5)
+
+        //if path is finished 
+        if (path.Count == 0)
         {
-
+            move = false;
         }
+        // if the player is within the current waypoint
+        if (x <= wayPoint.x + 0.5 && x >= wayPoint.x - 0.5 && 
+            y <= wayPoint.y + 0.5 && y >= wayPoint.y - 0.5)
+        {
+            findWayPoint();
+            move = true;
+        }
+        //if no path then do a star
+        //if the leader has moved do a star
+        // should the charcter move
+        Debug.Log("Waypoint" + wayPoint.x + "," + wayPoint.y);
+        previousPosition = leaderPosition;
 
-
-            //if no path then do a star
-            //if the leader has moved do a star
-            // should the charcter move
-
-            previousPosition = leaderPosition;
+        //  path = GameManager.Instance.GetShortestPath(new Vector2(2,2), new Vector2(5,5));
     }
 
 
@@ -75,115 +87,37 @@ public class FollowLeader : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Debug.Log("wowow");
 
-        //GameManager.Instance.GetShortestPath(new Vector2(1, 1), new Vector2(5, 5));
-        //Debug.Log("prev:" + previousPosition);
-        leaderPosition = GameManager.Instance.GetPlayers()["Party_Poison"].transform.position;
-        currentPostion = transform.position;
-
-        float leaderX = leaderPosition.x;
-        float leaderY = leaderPosition.y;
-        float x = transform.position.x;
-        float y = transform.position.y;
-
-        if (firstTime)
+        if (move)
         {
-            //Debug.Log("no prev");
-            StartCoroutine("FindPath");
-            firstTime = false;
-
+            rb.MovePosition(rb.position + wayPoint.normalized * speed * Time.fixedDeltaTime);
         }
-
-        if (!(x <= leaderX + 1 && x >= leaderX - 1 && y <= leaderY + 1 && y >= leaderY - 1))
-        {
-           
-             if (pathToLeader.Count != 0)
-            {
-                //Debug.Log("has prev and a path");
-
-                // and the charcater is near the way point
-                if (x <= wayPoint.x + 0.5 && x >= wayPoint.x - 0.5 && y <= wayPoint.y + 0.5 && y >= wayPoint.y - 0.5)
-                {
-                    //Debug.Log("if way point isnt this position");
-                    FindPath();
-                }
-                // if the leader hasnt moved 
-                 else if (System.Math.Floor(previousPosition.x) == System.Math.Floor(leaderPosition.x) &&
-                    System.Math.Floor(previousPosition.y) == System.Math.Floor(leaderPosition.y))
-                {
-                    //Debug.Log("has prev and a path and leader hasnt moved");
-                    FindPath();
-
-                }
-                else
-                {
-                    //Debug.Log("find path again");
-                    FindPath();
-                }
-            }
-            else
-            {
-                FindPath();
-            }
-
-            Debug.Log("wp: " + wayPoint);
-            // Debug.Log("Leader postion:" + leaderPosition);
-            if (!wayPoint.Equals(leaderPosition))
-            {
-               // Debug.Log("move!!");
-                // Vector3 Vect = new Vector3(wayPoint.x, wayPoint.y, 0);
-                //   tempVect = tempVect.normalized * GameManager.Instance.speed * Time.deltaTime;
-                Vector2 v = wayPoint - (Vector2)transform.position;
-                rb.velocity = v;
-            }
-
-        }
-        else
-        {
-            // Debug.Log("dont move");
-            
-            rb.velocity = Vector2.zero;
-
-        }
-
-
-       
-
+      
     }
 
 
-
-    private void FindPath()
-    {
-        //previousPosition = leaderPosition;
-
-        
-       /* Thread thread1 = new Thread(findShortPath);
-        thread1.Start();
-        findWayPoint();*/
-    }
 
     private void findShortPath()
     {
-        Vector2 newEnd =leaderPosition;
-        newEnd.y -= 0.5f;
+        Vector2 end =leaderPosition;
+        end.y -= 0.5f;
         if (dir.Equals(Direction.Left))
         {
-           
+            end.x += 0.5f;
         } else if (dir.Equals(Direction.Middle)) {
 
         } else if (dir.Equals(Direction.Right)){
-
+            end.x -= 0.5f;
         }
-        pathToLeader = GameManager.Instance.GetShortestPath(currentPostion, leaderPosition);
+        path = GameManager.Instance.GetShortestPath(currentPostion, end);
+        findWayPoint();
     }
 
     private void findWayPoint()
     {
-        if((pathToLeader.Count != 0))
+        if((path.Count != 0))
         {
-            wayPoint = pathToLeader.Dequeue();
+            wayPoint = path.Dequeue();
         }
 
     }
