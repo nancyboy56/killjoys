@@ -10,17 +10,14 @@ public class Player : MonoBehaviour
     public string gender;
     public string sexuality;
 
-    private Dictionary<string, int> stats;
+    private Dictionary<BaseStatType, Stats> stats;
 
-    //
-    private int maxStat = 25;
-    private int minStat = 6;
+    //saving throws
 
-    public bool ChangeStat (string stat, int modifer)
-    {
-        bool added = false; 
-        if(stats.ContainsKey(stat) && stats[stat] + modifer < 25 && stat
-    }
+    
+
+
+    
 
 
 
