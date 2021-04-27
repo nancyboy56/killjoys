@@ -14,10 +14,17 @@ public class Player : MonoBehaviour
 
     //saving throws
 
-    
+    // abilities checks
 
 
+    private int maxWeight;
+    private int maxHealth;
+    private int currentHealth;
+    private Weapon leftHand;
+    private Weapon rightHand;
     
+    // i want inventory to be over the whole patry not just on each character
+
 
 
 
