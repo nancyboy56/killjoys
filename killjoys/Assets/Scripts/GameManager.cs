@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
 
     private GameObject tm;
 
-   
+   	private Vector2 mapSize;
 
     private Pathfinding pf = new Pathfinding();
 
