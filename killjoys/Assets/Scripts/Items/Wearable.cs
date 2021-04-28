@@ -2,17 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WearableItem : MonoBehaviour
+public class Wearable : Item 
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private WearableType type;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
