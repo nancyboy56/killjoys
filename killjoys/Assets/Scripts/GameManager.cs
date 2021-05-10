@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance { get { return _instance; } }
 
+    //this has visual unity information, eg their poistion in the world
+    private Dictionary<Killjoys, GameObject> playersGameObjects = new Dictionary<Killjoys, GameObject>();
+
+    // has the interal  abilites and info on the players
     private Dictionary<Killjoys, GameObject> players = new Dictionary<Killjoys, GameObject>();
 
     public int speed = 10;
@@ -45,13 +49,11 @@ public class GameManager : MonoBehaviour {
         {
             tm = GameObject.Find("Ground");
             Tilemap map = tm.GetComponent<Tilemap>();
-            mapSize = new Vector2(map.size.x, map.size.y);
-        }
-       
 
-       
+            mapSize = new Vector2(map.size.x, map.size.y);
+            createWorldTile();
+        }
         
-        createWorldTile();
 
         state = GameStates.Exploring;
      }
@@ -61,9 +63,6 @@ public class GameManager : MonoBehaviour {
         if (tm != null)
         {
             Tilemap map = tm.GetComponent<Tilemap>();
-
-
-
 
             for (int y = -30; y < 50; y++)
             {
@@ -183,12 +182,12 @@ public class GameManager : MonoBehaviour {
 
     public void AddPlayer(Killjoys name, GameObject go)
     {
-        players.Add(name, go);
+        playersGameObjects.Add(name, go);
     }
 
     public Dictionary<Killjoys, GameObject> GetPlayers()
     {
-        return players;
+        return playersGameObjects;
     }
 
 

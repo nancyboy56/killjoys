@@ -8,13 +8,13 @@ public class Player
 {
 
     public string killjoyName;
-    public List<Pronouns> pronouns;
+    public List<Pronouns> pronouns = new List<Pronouns>();
     public string gender;
     public string sexuality;
     public int age;
     public Killjoys killjoy;
 
-    private Dictionary<BaseStatType, Stats> stats;
+    private Dictionary<BaseStatType, Stats> stats =  new Dictionary<BaseStatType, Stats>();
 
     //saving throws
 
@@ -37,14 +37,17 @@ public class Player
 
     public Player(string name)
     {
+       
         killjoyName = name;
         SetDefault();
        
     }
 
-    private void SetDefault()
+    public void SetDefault()
     {
-        pronouns.Add(new Pronouns());
+        Pronouns p = new Pronouns();
+        pronouns.Add(p);
+      
         gender = "unlabeled";
         sexuality = "unlabeled";
         age = 25;
