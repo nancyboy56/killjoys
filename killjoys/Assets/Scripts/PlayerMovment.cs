@@ -30,8 +30,11 @@ public class PlayerMovment : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        rb.MovePosition(rb.position + movement.normalized * speed * Time.fixedDeltaTime);
+        if (GameManager.Instance.state.Equals(GameStates.Exploring))
+        {
+            rb.MovePosition(rb.position + movement.normalized * speed * Time.fixedDeltaTime);
+        }
+        
 
        
 

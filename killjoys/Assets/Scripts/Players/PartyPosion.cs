@@ -2,17 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartyPosion : MonoBehaviour
+public class PartyPosion : Player
 {
-    // Start is called before the first frame update
-    void Start()
+    public PartyPosion(string name = "Party Posion") : base(name)
     {
-        
+        setStats();
+        killjoy = Killjoys.PartyPoison;
+
+        LeftHand = new Weapon(1, 6, BaseStatType.Dexterity, false);
+        RightHand = new Weapon(1, 6, BaseStatType.Dexterity, false);
+
+        MaxHealth = 30 + (int)PlayerStats[BaseStatType.Constitution].Modifier;
+        CurrentHealth = MaxHealth;
+
     }
 
-    // Update is called once per frame
-    void Update()
+
+    //Party Posions's base stats
+    private void setStats()
     {
-        
+        SetStat(BaseStatType.Strength, 10);
+        SetStat(BaseStatType.Dexterity, 16);
+        SetStat(BaseStatType.Constitution, 13);
+        SetStat(BaseStatType.Intelligence, 8);
+        SetStat(BaseStatType.Charisma, 18);
+
     }
 }

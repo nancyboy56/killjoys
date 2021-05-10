@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Stats 
 {
 	// without any items
@@ -59,12 +60,20 @@ public class Stats
 		get { return baseStat + itemStat; }
 
 		set { 
-			if(value <maxStat && value > minStat)
+			if(value < minStat)
 			{
-				CalculateModifier();
-				baseStat = value;
+				baseStat = minStat;
 			}
-			 }
+			else if(value <= maxStat && value >= minStat)
+			{ 
+				baseStat = value;
+				CalculateModifier();
+			}
+			else if(value > maxStat)
+			{
+				baseStat = maxStat;
+			}
+		}
 	}
 
 	public float Modifier
@@ -81,6 +90,7 @@ public class Stats
 	public void ChangeStat(int change)
 	{
 		BaseStat += change;
+		
 	}
 
 	public override string ToString()
@@ -91,7 +101,7 @@ public class Stats
 		{
 			stateTypeString = "Chrisma";
 		} 
-		else if (statType.Equals(BaseStatType.Wisdom))
+		else if (statType.Equals(BaseStatType.Intelligence))
 		{
 			stateTypeString = "Wisdom";
 		}

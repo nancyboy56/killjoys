@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance { get { return _instance; } }
 
-    private Dictionary<string, GameObject> players = new Dictionary<string, GameObject>();
+    private Dictionary<Killjoys, GameObject> players = new Dictionary<Killjoys, GameObject>();
 
     public int speed = 10;
 
@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour {
     private Pathfinding pf = new Pathfinding();
 
     public Dictionary<string, WorldTile> worldTiles = new Dictionary<string, WorldTile>();
+
+    public GameStates state;
 
     private void Awake()
     {
@@ -39,79 +41,100 @@ public class GameManager : MonoBehaviour {
 
      void Start()
      { 
-        tm = GameObject.Find("Ground");
-        Tilemap map = tm.GetComponent<Tilemap>();
+        if(GameObject.Find("Ground") != null)
+        {
+            tm = GameObject.Find("Ground");
+            Tilemap map = tm.GetComponent<Tilemap>();
+            mapSize = new Vector2(map.size.x, map.size.y);
+        }
+       
 
-        mapSize = new Vector2(map.size.x, map.size.y);
+       
         
         createWorldTile();
+
+        state = GameStates.Exploring;
      }
 
     private void createWorldTile()
     {
-        Tilemap map = tm.GetComponent<Tilemap>();
-
-        Tilemap wallMap = GameObject.Find("Walls").GetComponent<Tilemap>();
-
-        for (int y = -30; y < 50; y++)
+        if (tm != null)
         {
-            for (int x = -30; x < 50; x++)
-            {
-                if (map.HasTile(new Vector3Int(x, y, 0)))
-                {
-                    worldTiles.Add(x + "," + y, new WorldTile(true, x, y));
-                   // spawnCirclesTiles(x, y);
-                   
-                }
-            }
-        }
+            Tilemap map = tm.GetComponent<Tilemap>();
 
-        for (int a = -30; a < 50; a++)
-        {
-           // Debug.Log("wow2");
-            for (int b = -30; b < 50; b++)
+
+
+
+            for (int y = -30; y < 50; y++)
             {
-                //Debug.Log("wow1");
-                //spawnCirclesTiles(b, a);
-                if (wallMap.HasTile(new Vector3Int(b, a, 0)))
+                for (int x = -30; x < 50; x++)
                 {
-                    //Debug.Log("wow");
-                    if(worldTiles.ContainsKey(b + "," + a)){
-                        worldTiles[b + "," + a].walkable = false;
-                        //spawnCirclesTiles(b, a);
-                    }
-                    else
+                    if (map.HasTile(new Vector3Int(x, y, 0)))
                     {
-                        //Debug.Log("doesnt exist" + b + ","+a);
-                        worldTiles.Add(b + "," + a, new WorldTile(false, b, a));
-                        //spawnCirclesTiles(b, a);
+                        worldTiles.Add(x + "," + y, new WorldTile(true, x, y));
+                        // spawnCirclesTiles(x, y);
+
                     }
-
-
                 }
             }
-        }
 
-       
-
-        foreach (WorldTile tile in worldTiles.Values)
-        {
-            WorldTile wt = worldTiles[tile.gridX + "," + tile.gridY];
-            if (wt.walkable)
+            if (GameObject.Find("Walls") != null)
             {
-                wt.myNeighbours = getNeighbours(tile.gridX, tile.gridY);
-                foreach (WorldTile neighbours in wt.myNeighbours)
+                Tilemap wallMap = GameObject.Find("Walls").GetComponent<Tilemap>();
+
+                for (int a = -30; a < 50; a++)
                 {
-                    if (!neighbours.walkable)
-                        wt.specialCost = 10;
+                    // Debug.Log("wow2");
+                    for (int b = -30; b < 50; b++)
+                    {
+                        //Debug.Log("wow1");
+                        //spawnCirclesTiles(b, a);
+                        if (wallMap.HasTile(new Vector3Int(b, a, 0)))
+                        {
+                            //Debug.Log("wow");
+                            if (worldTiles.ContainsKey(b + "," + a))
+                            {
+                                worldTiles[b + "," + a].walkable = false;
+                                //spawnCirclesTiles(b, a);
+                            }
+                            else
+                            {
+                                //Debug.Log("doesnt exist" + b + ","+a);
+                                worldTiles.Add(b + "," + a, new WorldTile(false, b, a));
+                                //spawnCirclesTiles(b, a);
+                            }
+
+
+                        }
+                    }
                 }
+
             }
-            else
+
+
+
+
+            foreach (WorldTile tile in worldTiles.Values)
             {
-                wt.myNeighbours = new List<WorldTile>();
+                WorldTile wt = worldTiles[tile.gridX + "," + tile.gridY];
+                if (wt.walkable)
+                {
+                    wt.myNeighbours = getNeighbours(tile.gridX, tile.gridY);
+                    foreach (WorldTile neighbours in wt.myNeighbours)
+                    {
+                        if (!neighbours.walkable)
+                            wt.specialCost = 10;
+                    }
+                }
+                else
+                {
+                    wt.myNeighbours = new List<WorldTile>();
+                }
+
             }
-            
         }
+        
+        
     }
     
 
@@ -158,12 +181,12 @@ public class GameManager : MonoBehaviour {
     }
 
 
-    public void AddPlayer(string name, GameObject go)
+    public void AddPlayer(Killjoys name, GameObject go)
     {
         players.Add(name, go);
     }
 
-    public Dictionary<string, GameObject> GetPlayers()
+    public Dictionary<Killjoys, GameObject> GetPlayers()
     {
         return players;
     }

@@ -30,7 +30,7 @@ public class FollowLeader : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        leaderPosition = GameManager.Instance.GetPlayers()["Party_Poison"].transform.position;
+        leaderPosition = GameManager.Instance.GetPlayers()[Killjoys.PartyPoison].transform.position;
         currentPostion = transform.position;
         previousPosition = leaderPosition;
 
@@ -39,47 +39,51 @@ public class FollowLeader : MonoBehaviour
 
     void Update()
     {
-        leaderPosition = GameManager.Instance.GetPlayers()["Party_Poison"].transform.position;
-        currentPostion = transform.position;
-
-        float leaderX = leaderPosition.x;
-        float leaderY = leaderPosition.y;
-
-        float x = transform.position.x;
-        float y = transform.position.y;
-
-        float preX = previousPosition.x;
-        float preY = previousPosition.y;
-
-        Vector2 different = leaderPosition - previousPosition;
-        //if leader postion has changed 
-        if (Math.Abs(different.x) <=0.5 || Math.Abs(different.y) <=0.25 )
+        if (GameManager.Instance.state.Equals(GameStates.Exploring))
         {
-            findShortPath();
-            move = true;
-            Debug.Log("a star");
+            leaderPosition = GameManager.Instance.GetPlayers()[Killjoys.PartyPoison].transform.position;
+            currentPostion = transform.position;
+
+            float leaderX = leaderPosition.x;
+            float leaderY = leaderPosition.y;
+
+            float x = transform.position.x;
+            float y = transform.position.y;
+
+            float preX = previousPosition.x;
+            float preY = previousPosition.y;
+
+            Vector2 different = leaderPosition - previousPosition;
+            //if leader postion has changed 
+            if (Math.Abs(different.x) <= 0.5 || Math.Abs(different.y) <= 0.25)
+            {
+                findShortPath();
+                move = true;
+                Debug.Log("a star");
+            }
+
+
+            Vector2 differentWP = wayPoint - (Vector2)transform.position;
+            //if path is finished 
+            if (path.Count == 0)
+            {
+                move = false;
+                Debug.Log("dont move");
+            }
+            else if (Math.Abs(differentWP.x) <= 0.1 || Math.Abs(differentWP.y) <= 0.1)
+            {
+                findWayPoint();
+                move = true;
+                Debug.Log("move to next way point");
+            }
+            // if the player is within the current waypoint
+
+
+            Debug.Log("Waypoint" + wayPoint.x + "," + wayPoint.y);
+            previousPosition = leaderPosition;
+
+            //  path = GameManager.Instance.GetShortestPath(new Vector2(2,2), new Vector2(5,5));
         }
-
-
-        Vector2 differentWP = wayPoint - (Vector2)transform.position;
-        //if path is finished 
-        if (path.Count == 0)
-        {
-            move = false;
-            Debug.Log("dont move");
-        } else if  (Math.Abs(differentWP.x) <= 0.1 || Math.Abs(differentWP.y) <= 0.1)
-        {
-            findWayPoint();
-            move = true;
-            Debug.Log("move to next way point");
-        }
-        // if the player is within the current waypoint
-
-
-        Debug.Log("Waypoint" + wayPoint.x + "," + wayPoint.y);
-        previousPosition = leaderPosition;
-
-        //  path = GameManager.Instance.GetShortestPath(new Vector2(2,2), new Vector2(5,5));
     }
 
 
@@ -87,23 +91,19 @@ public class FollowLeader : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (move)
+        if (GameManager.Instance.state.Equals(GameStates.Exploring))
         {
-            /* Vector3 direction = wayPoint - currentPostion;
-             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-             //rb.velocity= rb.position- wayPoint.normalized * speed * Time.fixedDeltaTime;
-             rb.rotation = angle;
-             direction.Normalize();
-             rb.MovePosition(transform.position+ (direction * 1 * Time.fixedDeltaTime));
+            if (move)
+            {
 
-             rb.velocity = direction * speed*/
-            Vector2 v = wayPoint - (Vector2)transform.position;
-            rb.velocity = Vector2.ClampMagnitude(rb.velocity + v , speed);
-            transform.up = rb.velocity.normalized;
-        }
-        else
-        {
-            rb.velocity = Vector2.zero;
+                Vector2 v = wayPoint - (Vector2)transform.position;
+                rb.velocity = Vector2.ClampMagnitude(rb.velocity + v, speed);
+                transform.up = rb.velocity.normalized;
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+            }
         }
       
     }

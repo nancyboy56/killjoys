@@ -2,17 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FunGhoul : MonoBehaviour
+
+[System.Serializable]
+public class FunGhoul : Player
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public FunGhoul(string name = "Fun Ghoul") : base(name)
     {
-        
+        setStats();
+        killjoy = Killjoys.FunGhoul;
+
+        LeftHand = new Weapon(1, 4, BaseStatType.Dexterity, false);
+
+        MaxHealth = 20 + (int)PlayerStats[BaseStatType.Constitution].Modifier;
+        CurrentHealth = MaxHealth;
+
     }
 
-    // Update is called once per frame
-    void Update()
+
+    //Fun Ghoul's base stats
+    private void setStats()
     {
+        SetStat(BaseStatType.Strength, 8);
+        SetStat(BaseStatType.Dexterity, 14);
+        SetStat(BaseStatType.Constitution, 12);
+        SetStat(BaseStatType.Intelligence, 18);
+        SetStat(BaseStatType.Charisma, 11);
+
         
+
     }
+   
 }

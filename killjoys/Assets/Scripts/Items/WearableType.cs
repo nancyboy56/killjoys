@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public enum WearableType 
 {
    Helmet, 
-   Makeup,
+   Face,
    Armour,
    Boots,
    // rings or gloves idk yet

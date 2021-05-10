@@ -51,12 +51,12 @@ public class CreateBasicMapScript : MonoBehaviour
 
     }
 
-    private void swapnPlayers()
+ /*   private void swapnPlayers()
     {
         GameObject party = Instantiate(Resources.Load("Prefabs/Players/Party_Poison", typeof(GameObject))) as GameObject;
         party.transform.position = new Vector3(0, 0, 0);
 
-        GameManager.Instance.AddPlayer("Party_Poison", party);
+        GameManager.Instance.AddPlayer(P, party);
 
         GameObject ghoul = Instantiate(Resources.Load("Prefabs/Players/Fun_Ghoul", typeof(GameObject))) as GameObject;
         ghoul.transform.position = new Vector3(0, -1, 0);
@@ -73,7 +73,7 @@ public class CreateBasicMapScript : MonoBehaviour
 
         GameManager.Instance.AddPlayer("Kobra_Kid", kobra);
 
-    }
+    }*/
 
     // Update is called once per frame
     void Update()

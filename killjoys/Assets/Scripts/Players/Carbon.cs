@@ -4,6 +4,7 @@ using UnityEngine;
 
 // there might be an equivent if gold an dislver coins idk yet
 //the money system in the game
+[System.Serializable]
 public class Carbon 
 {
     private int carbons;
