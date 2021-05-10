@@ -34,6 +34,10 @@ public class PlayerMovment : MonoBehaviour
         {
             rb.MovePosition(rb.position + movement.normalized * speed * Time.fixedDeltaTime);
         }
+        else
+        {
+            rb.velocity= Vector2.zero;
+        }
         
 
        

@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour {
         {
             _instance = this;
         }
+        state = GameStates.Exploring;
     }
 
      void Start()
@@ -55,7 +56,7 @@ public class GameManager : MonoBehaviour {
         }
         
 
-        state = GameStates.Exploring;
+        
      }
 
     private void createWorldTile()

@@ -14,6 +14,9 @@ public class Player
     public int age;
     public Killjoys killjoy;
 
+    //how many squares can move per turn
+    public int movement = 5;
+
     private Dictionary<BaseStatType, Stats> stats =  new Dictionary<BaseStatType, Stats>();
 
     //saving throws
@@ -30,6 +33,7 @@ public class Player
     private Weapon leftHand;
     private Weapon rightHand;
     private float amourClass;
+
 
     // i want inventory to be over the whole patry not just on each character
 
