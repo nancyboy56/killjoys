@@ -24,4 +24,14 @@ public class DracBasic : MonoBehaviour
         }
         
     }
+
+    public void Damage(int dam)
+    {
+        currentHealth -= dam;
+            if (currentHealth <= 0)
+        {
+
+            Destroy(this);
+        }
+    }
 }

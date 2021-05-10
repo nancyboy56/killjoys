@@ -41,6 +41,8 @@ public class SetUpCombat : MonoBehaviour
         GameObject enemy = Instantiate(Resources.Load("Prefabs/Enemies/DracBasic", typeof(GameObject))) as GameObject;
         enemy.transform.position = new Vector3(0.5f,0.75f, 0);
 
+        GameManager.Instance.enemies.Add(enemy);
+
 
 
     }

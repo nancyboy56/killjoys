@@ -23,6 +23,7 @@ public class AttackEnemy : MonoBehaviour
 
     void TaskOnClick()
     {
+        GameManager.Instance.enemies[0].Damage();
         Debug.Log("You have clicked the attack button!");
     }
 

@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour {
 
     public GameStates state;
 
+    public List<GameObject> enemies = new List<GameObject>();
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
