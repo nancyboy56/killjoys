@@ -218,12 +218,12 @@ public class Character : MonoBehaviour
 
     public void health(int num)
     {
-        ChangeHealth(num)
+        ChangeHealth(num);
     }
 
     public void Damage(int num)
     {
-        ChangeHealth(num)
+        ChangeHealth(num);
     }
 
 

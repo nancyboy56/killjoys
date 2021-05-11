@@ -7,7 +7,9 @@ using UnityEngine;
 public class FunGhoul : Player
 {
 
-    public FunGhoul(string name = "Fun Ghoul") : base(name)
+
+
+    public FunGhoul(string name = "Fun Ghoul") 
     {
         setStats();
         killjoy = Killjoys.FunGhoul;
