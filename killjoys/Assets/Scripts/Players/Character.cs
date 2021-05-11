@@ -12,7 +12,7 @@ public class Character : MonoBehaviour
     public List<Pronouns> pronouns = new List<Pronouns>();
 
     private int maxHealth;
-    private int minHealth;
+    private int minHealth; 
     private int currentHealth;
 
     private Weapon leftHand;
