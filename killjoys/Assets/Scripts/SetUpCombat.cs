@@ -8,6 +8,8 @@ public class SetUpCombat : MonoBehaviour
     private List<GameObject> enemies = new List<GameObject>();
 
     private List<GameObject> order = new List<GameObject>();
+
+    public int orderIndex = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,15 +51,7 @@ public class SetUpCombat : MonoBehaviour
 
         //get compent my script my fucnction
 
-        foreach( GameObject go in enemies)
-        {
-            order.Add(go);
-            if (go.GetComponent<Character>() !=null)
-            {
-                Debug.Log("Got intivative " + go.name);
-                go.GetComponent<Character>().Initative();
-            }
-        }
+     
         
        // enemies.Add(enemy);
         // GameManager.Instance.enemies.Add(enemy);
@@ -72,6 +66,40 @@ public class SetUpCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        // sets up initaive (the order) for turn based combat
+        if(order.Count == 0)
+        {
+            // add enmenies
+            foreach (GameObject go in enemies)
+            {
+                order.Add(go);
+                if (go.GetComponent<Character>() != null)
+                {
+                    go.GetComponent<Character>().Initative();
+                    Debug.Log("Intivative " + go.name + ", " + go.GetComponent<Character>().initiative);
+                }
+            }
+
+            // add players
+            foreach( GameObject go in GameManager.Instance.GetPlayers().Values)
+            {
+                order.Add(go);
+                if (go.GetComponent<Character>() != null)
+                {
+                    
+                    go.GetComponent<Character>().Initative();
+                    Debug.Log("Intivative " + go.name + ", " + go.GetComponent<Character>().initiative);
+                }
+            }
+
+            order.Sort((a, b) => (b.GetComponent<Character>().initiative).CompareTo(
+                a.GetComponent<Character>().initiative));
+
+            foreach(GameObject go in order){
+                Debug.Log(go.name);
+            }
+        }
+ 
     }
 }
