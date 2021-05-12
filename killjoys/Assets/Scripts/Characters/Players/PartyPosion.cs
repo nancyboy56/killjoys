@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class PartyPosion : Player
 {
-  
-
-
     //Party Posions's base stats
-    private void setStats()
+    public override void Start()
     {
+        base.Start();
+
         SetStat(BaseStatType.Strength, 10);
         SetStat(BaseStatType.Dexterity, 16);
         SetStat(BaseStatType.Constitution, 13);
@@ -23,6 +22,15 @@ public class PartyPosion : Player
 
         MaxHealth = 30 + (int)PlayerStats[BaseStatType.Constitution].Modifier;
         CurrentHealth = MaxHealth;
-
     }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+
+
+
+    
+   
 }

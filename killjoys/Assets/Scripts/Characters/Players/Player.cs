@@ -24,14 +24,16 @@ public class Player : Character
 
     private Dictionary<WearableType, Wearable> wearing = new Dictionary<WearableType, Wearable>();
 
-    public void Start()
+    public override void Start()
     {
-       
+        base.Start();
+        maxWeight = 15 * PlayerStats[BaseStatType.Strength].Modifier;
     }
 
     // Update is called once per frame
-    public void Update()
+    public override void Update()
     {
+        base.Update();
 
     }
 

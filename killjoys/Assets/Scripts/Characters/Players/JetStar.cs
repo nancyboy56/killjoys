@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class JetStar : Player
 {
-   
 
-
-    //Jet Star's base stats
-    private void setStats()
+    public override void Start()
     {
+        base.Start();
+        //Jet Star's base stats
         SetStat(BaseStatType.Strength, 14);
         SetStat(BaseStatType.Dexterity, 18);
         SetStat(BaseStatType.Constitution, 12);
@@ -22,6 +21,13 @@ public class JetStar : Player
 
         MaxHealth = 35 + (int)PlayerStats[BaseStatType.Constitution].Modifier;
         CurrentHealth = MaxHealth;
-
+        
     }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+
+   
 }

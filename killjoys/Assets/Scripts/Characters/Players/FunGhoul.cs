@@ -6,33 +6,31 @@ using UnityEngine;
 [System.Serializable]
 public class FunGhoul : Player
 {
-
-
-
-    public FunGhoul(string name = "Fun Ghoul") 
+    public override void Start()
     {
-        setStats();
-        killjoy = Killjoys.FunGhoul;
+        base.Start();
 
-        LeftHand = new Weapon(1, 4, BaseStatType.Dexterity, false);
-
-        MaxHealth = 20 + (int)PlayerStats[BaseStatType.Constitution].Modifier;
-        CurrentHealth = MaxHealth;
-
-    }
-
-
-    //Fun Ghoul's base stats
-    private void setStats()
-    {
+        //Fun Ghoul's base stats
         SetStat(BaseStatType.Strength, 8);
         SetStat(BaseStatType.Dexterity, 14);
         SetStat(BaseStatType.Constitution, 12);
         SetStat(BaseStatType.Intelligence, 18);
         SetStat(BaseStatType.Charisma, 11);
 
-        
+        killjoy = Killjoys.FunGhoul;
 
+        LeftHand = new Weapon(1, 4, BaseStatType.Dexterity, false);
+
+        MaxHealth = 20 + (int)PlayerStats[BaseStatType.Constitution].Modifier;
+        CurrentHealth = MaxHealth;
     }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+
+   
+ 
    
 }

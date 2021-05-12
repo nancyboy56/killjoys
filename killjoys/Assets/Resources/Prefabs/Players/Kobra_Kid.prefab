@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -8512275037241499173}
   - component: {fileID: -970343387703833422}
   - component: {fileID: -8736648093934720528}
-  - component: {fileID: 8096458668064573884}
+  - component: {fileID: 5915657040704700782}
   m_Layer: 0
   m_Name: Kobra_Kid
   m_TagString: Untagged
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dir: 2
---- !u!114 &8096458668064573884
+--- !u!114 &5915657040704700782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,6 +145,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2698813230875503156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d126201a1ba3a8a4fbd0b2270368fdff, type: 3}
+  m_Script: {fileID: 11500000, guid: ab94470a714c145408d6c4b880b20c3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterName: 
+  gender: 
+  sexuality: 
+  age: 0
+  pronouns: []
+  movement: 5
+  killjoy: 0

@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,19 +23,51 @@ public class Character : MonoBehaviour
     public int movement = 5;
 
     private Dictionary<BaseStatType, Stats> stats = new Dictionary<BaseStatType, Stats>();
+
+    public int initiative;
     
 
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
-        SetDefault();
+        Debug.Log("Base");
+        Pronouns p = new Pronouns();
+        pronouns.Add(p);
+
+        gender = "unlabeled";
+        sexuality = "unlabeled";
+        age = 25;
+
+        // default stats all 10
+        stats.Add(BaseStatType.Strength, new Stats(BaseStatType.Strength, 10));
+        stats.Add(BaseStatType.Dexterity, new Stats(BaseStatType.Dexterity, 10));
+        stats.Add(BaseStatType.Constitution, new Stats(BaseStatType.Constitution, 10));
+        stats.Add(BaseStatType.Intelligence, new Stats(BaseStatType.Intelligence, 10));
+        stats.Add(BaseStatType.Charisma, new Stats(BaseStatType.Charisma, 10));
+
+        maxHealth = 10;
+        minHealth = 0;
+
+        leftHand = new Weapon();
+        rightHand = new Weapon();
+        currentHealth = maxHealth;
+
+        // maxWeight = 15 * stats[BaseStatType.Strength].Modifier;
+
+        amourClass = 10 + stats[BaseStatType.Dexterity].Modifier;
+        
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         
+    }
+
+    public void Initative()
+    {
+        initiative= Random.Range(1, 20) + (int) PlayerStats[BaseStatType.Dexterity].Modifier;
     }
 
     // this will change as not all players can use all the weapons
@@ -86,9 +119,6 @@ public class Character : MonoBehaviour
             return stats;
         }
     }
-
-
-
 
     public List<Pronouns> Pronouns
     {
@@ -222,31 +252,5 @@ public class Character : MonoBehaviour
     }
 
 
-    public void SetDefault()
-    {
-        Pronouns p = new Pronouns();
-        pronouns.Add(p);
-
-        gender = "unlabeled";
-        sexuality = "unlabeled";
-        age = 25;
-
-        // default stats all 10
-        stats.Add(BaseStatType.Strength, new Stats(BaseStatType.Strength, 10));
-        stats.Add(BaseStatType.Dexterity, new Stats(BaseStatType.Dexterity, 10));
-        stats.Add(BaseStatType.Constitution, new Stats(BaseStatType.Constitution, 10));
-        stats.Add(BaseStatType.Intelligence, new Stats(BaseStatType.Intelligence, 10));
-        stats.Add(BaseStatType.Charisma, new Stats(BaseStatType.Charisma, 10));
-
-        maxHealth = 10;
-        minHealth = 0;
-
-        leftHand = new Weapon();
-        rightHand = new Weapon();
-        currentHealth = maxHealth;
-
-        maxWeight = 15 * stats[BaseStatType.Strength].Modifier;
-
-        amourClass = 10 + stats[BaseStatType.Dexterity].Modifier;
-    }
+  
 }

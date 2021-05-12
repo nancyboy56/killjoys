@@ -2,35 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DracBasic : MonoBehaviour
+public class DracBasic : NPC
 {
-    public int maxHealth = 10;
-    public int currentHealth;
+    
 
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
-        maxHealth = currentHealth;
-        
+        base.Start();
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        if(currentHealth <= 0)
-        {
-            Destroy(this);
-        }
-        
+        base.Update();
     }
 
-    public void Damage(int dam)
+    public void TakeDamage(int dam)
     {
-        currentHealth -= dam;
-            if (currentHealth <= 0)
+        CurrentHealth -= dam;
+        if (CurrentHealth <= 0)
         {
-
             Destroy(this);
         }
     }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -7442352441183233377}
   - component: {fileID: -8281122829373341373}
   - component: {fileID: 7190364613310187409}
-  - component: {fileID: 1625958442248256055}
+  - component: {fileID: 1444718994572909545}
   m_Layer: 0
   m_Name: Jet_Star
   m_TagString: Untagged
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dir: 0
---- !u!114 &1625958442248256055
+--- !u!114 &1444718994572909545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,6 +145,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2743226599779711373}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90b551d6f546f5e4785d87226dc74806, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ce573e7920fa8b46b5ccce4fb002576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterName: 
+  gender: 
+  sexuality: 
+  age: 0
+  pronouns: []
+  movement: 5
+  killjoy: 0

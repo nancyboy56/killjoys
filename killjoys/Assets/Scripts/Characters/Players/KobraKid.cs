@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class KobraKid : Player
 {
-    //Kobra Kid's base stats
-    private void setStats()
+
+    public override void Start()
     {
+        base.Start();
+        //Kobra Kid's base stats
         SetStat(BaseStatType.Strength, 18);
         SetStat(BaseStatType.Dexterity, 14);
         SetStat(BaseStatType.Constitution, 18);
@@ -18,8 +20,15 @@ public class KobraKid : Player
         LeftHand = new Weapon(2, 12, BaseStatType.Dexterity, true);
 
 
-        MaxHealth = 35 + (int)PlayerStats[BaseStatType.Constitution].Modifier;
+        MaxHealth = 40 + (int)PlayerStats[BaseStatType.Constitution].Modifier;
         CurrentHealth = MaxHealth;
-
+        
     }
+
+    public override void Update()
+    {
+        base.Update();
+    }
+    
+   
 }
