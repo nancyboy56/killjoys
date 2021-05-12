@@ -4,21 +4,10 @@ using UnityEngine;
 
 public class JetStar : Player
 {
-    public JetStar(string name = "Jet Star") : base(name)
-    {
-        setStats();
-        killjoy = Killjoys.JetStar;
-
-        LeftHand = new Weapon(1, 8, BaseStatType.Dexterity, false);
-        
-
-        MaxHealth = 35 + (int)PlayerStats[BaseStatType.Constitution].Modifier;
-        CurrentHealth = MaxHealth;
-
-    }
+   
 
 
-    //Party Posions's base stats
+    //Jet Star's base stats
     private void setStats()
     {
         SetStat(BaseStatType.Strength, 14);
@@ -26,6 +15,13 @@ public class JetStar : Player
         SetStat(BaseStatType.Constitution, 12);
         SetStat(BaseStatType.Intelligence, 14);
         SetStat(BaseStatType.Charisma, 8);
+        killjoy = Killjoys.JetStar;
+
+        LeftHand = new Weapon(1, 8, BaseStatType.Dexterity, false);
+
+
+        MaxHealth = 35 + (int)PlayerStats[BaseStatType.Constitution].Modifier;
+        CurrentHealth = MaxHealth;
 
     }
 }

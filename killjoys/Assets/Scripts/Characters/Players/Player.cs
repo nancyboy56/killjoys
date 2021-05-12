@@ -24,13 +24,13 @@ public class Player : Character
 
     private Dictionary<WearableType, Wearable> wearing = new Dictionary<WearableType, Wearable>();
 
-    void Start()
+    public void Start()
     {
-        SetDefault();
+       
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
 
     }

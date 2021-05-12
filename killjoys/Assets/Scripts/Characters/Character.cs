@@ -62,11 +62,6 @@ public class Character : MonoBehaviour
         }
     }
 
-
-
-
-
-
     // change as in a base stat + change, add or minus from the stat
     public void ChangeStat(BaseStatType stat, int change)
     {
