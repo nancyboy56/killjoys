@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Run : MonoBehaviour
 {
     public Button button;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,13 @@ public class Run : MonoBehaviour
 
     void TaskOnClick()
     {
+        GameObject setup = GameObject.Find("/SetUpCombat");
+
+        if(setup != null)
+        {
+            GameObject player = setup.GetComponent<SetUpCombat>().order[setup.GetComponent<SetUpCombat>().orderIndex];
+        }
+
         Debug.Log("You have clicked the run button!");
     }
 }
