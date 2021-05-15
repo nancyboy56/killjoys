@@ -7,7 +7,7 @@ public class SetUpCombat : MonoBehaviour
 {
     private List<GameObject> enemies = new List<GameObject>();
 
-    private List<GameObject> order = new List<GameObject>();
+    public List<GameObject> order = new List<GameObject>();
 
     public int orderIndex = 0;
     // Start is called before the first frame update
