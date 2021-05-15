@@ -9,12 +9,34 @@ public class SetUpCombat : MonoBehaviour
 
     public List<GameObject> order = new List<GameObject>();
 
-    public int orderIndex = 0;
+    private int orderIndex = 0;
+
+    public int OrderIndex
+    {
+        get
+        {
+            return orderIndex;
+        }
+        set
+        {
+            if(value >=0 && value <= order.Count)
+            {
+                orderIndex = value;
+
+            }
+            else
+            {
+                orderIndex = 0;
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         GameManager.Instance.state = GameStates.Combat;
 
+        //spawn players
         if(GameManager.Instance.GetPlayers().Count == 0)
         {
             GameObject party = Instantiate(Resources.Load("Prefabs/Players/Party_Poison")) as GameObject;

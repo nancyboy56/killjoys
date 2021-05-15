@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AttackEnemy : MonoBehaviour
+public class AttackButton : MonoBehaviour
 {
     public Button button;
-    
+    SetUpCombat setup;
+
     // Start is called before the first frame update
     void Start()
     {
         button = GetComponent<Button>();
+        setup = GameObject.Find("/SetUpCombat").GetComponent<SetUpCombat>();
         button.onClick.AddListener(TaskOnClick);
 
     }
@@ -24,9 +26,16 @@ public class AttackEnemy : MonoBehaviour
     void TaskOnClick()
     {
 
-       // GameManager.Instance.enemies[0].Damage();
+        // GameManager.Instance.enemies[0].Damage();
+        GameObject player = setup.order[setup.OrderIndex];
+        int health = player.GetComponent<Player>().CurrentHealth;
+        
         Debug.Log("You have clicked the attack button!");
     }
 
+    public void Attack()
+    {
+        Debug.Log("You have clicked the attack button!");
+    }
 
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Run : MonoBehaviour
+public class RunButton : MonoBehaviour
 {
     public Button button;
     
@@ -26,7 +26,7 @@ public class Run : MonoBehaviour
 
         if(setup != null)
         {
-            GameObject player = setup.GetComponent<SetUpCombat>().order[setup.GetComponent<SetUpCombat>().orderIndex];
+            GameObject player = setup.GetComponent<SetUpCombat>().order[setup.GetComponent<SetUpCombat>().OrderIndex];
         }
 
         Debug.Log("You have clicked the run button!");
