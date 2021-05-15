@@ -21,7 +21,7 @@ public class HealthBarCombat : MonoBehaviour
     void Update()
     {
         GameObject player = setup.order[setup.OrderIndex];
-        int health = player.GetComponent<Player>().CurrentHealth;
+        int health = player.GetComponent<Character>().CurrentHealth;
         if(health != previousHealth)
         {
             text.text = "Health: " + health;

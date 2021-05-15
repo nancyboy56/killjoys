@@ -19,7 +19,7 @@ public class SetUpCombat : MonoBehaviour
         }
         set
         {
-            if(value >=0 && value <= order.Count)
+            if(value >=0 && value < order.Count)
             {
                 orderIndex = value;
 
@@ -43,14 +43,17 @@ public class SetUpCombat : MonoBehaviour
             party.transform.position = new Vector3(0.5f, -0.75f, 0);
 
             GameManager.Instance.AddPlayer(Killjoys.PartyPoison, party);
+            party.name = "Party Poison";
 
             GameObject ghoul = Instantiate(Resources.Load("Prefabs/Players/Fun_Ghoul")) as GameObject;
             ghoul.transform.position = new Vector3(2.5f, 0.25f, 0);
 
             GameManager.Instance.AddPlayer(Killjoys.FunGhoul, ghoul);
+            ghoul.name = "Fun Ghoul";
 
             GameObject jet = Instantiate(Resources.Load("Prefabs/Players/Jet_Star")) as GameObject;
             jet.transform.position = new Vector3(1.5f, -0.25f, 0);
+            jet.name = "Jet Star";
 
             GameManager.Instance.AddPlayer(Killjoys.JetStar, jet);
 
@@ -58,6 +61,7 @@ public class SetUpCombat : MonoBehaviour
             kobra.transform.position = new Vector3(3.5f, 0.75f, 0);
 
             GameManager.Instance.AddPlayer(Killjoys.KobraKid, kobra);
+            kobra.name = "Kobra Kid";
         }
         else
         {
@@ -119,7 +123,7 @@ public class SetUpCombat : MonoBehaviour
                 a.GetComponent<Character>().initiative));
 
             foreach(GameObject go in order){
-                Debug.Log(go.name);
+               // Debug.Log(go.name);
             }
         }
  

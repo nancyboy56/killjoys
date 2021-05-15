@@ -8,7 +8,7 @@ public class RoundList : MonoBehaviour
 {
     public Text text;
     SetUpCombat setup;
-    Dictionary<Killjoys, int> healths = new Dictionary<Killjoys, int>();
+    bool isSetUp = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,9 +19,25 @@ public class RoundList : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(setup.order.Count != 0)
+        {
+            if (!isSetUp)
+            {
+                string round = "Round: ";
+                foreach (GameObject character in setup.order)
+                {
+                    Debug.Log("yes wow");
+                    round += character.name + ", ";
+                    Debug.Log(round);
+                }
+
+                text.text = round;
+                isSetUp = true;
+            }
+        }
+        
         //
-          
-        Dictionary<Killjoys, GameObject> players = GameManager.Instance.GetPlayers();
+        
 
 
         

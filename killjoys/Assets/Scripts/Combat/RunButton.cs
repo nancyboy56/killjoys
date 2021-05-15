@@ -5,12 +5,12 @@ using UnityEngine.UI;
 
 public class RunButton : MonoBehaviour
 {
-    public Button button;
+  
     
     // Start is called before the first frame update
     void Start()
     {
-        button = GetComponent<Button>();
+        Button button = GetComponent<Button>();
         button.onClick.AddListener(TaskOnClick);
     }
 

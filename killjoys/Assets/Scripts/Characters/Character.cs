@@ -31,7 +31,7 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        Debug.Log("Base");
+        //Debug.Log("Base");
         Pronouns p = new Pronouns();
         pronouns.Add(p);
 

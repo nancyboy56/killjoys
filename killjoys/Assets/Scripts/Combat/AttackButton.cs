@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class AttackButton : MonoBehaviour
 {
-    public Button button;
-    SetUpCombat setup;
+    
+    private SetUpCombat setup;
 
     // Start is called before the first frame update
     void Start()
     {
-        button = GetComponent<Button>();
+        Button button = GetComponent<Button>();
         setup = GameObject.Find("/SetUpCombat").GetComponent<SetUpCombat>();
         button.onClick.AddListener(TaskOnClick);
 
@@ -33,9 +33,6 @@ public class AttackButton : MonoBehaviour
         Debug.Log("You have clicked the attack button!");
     }
 
-    public void Attack()
-    {
-        Debug.Log("You have clicked the attack button!");
-    }
+  
 
 }
