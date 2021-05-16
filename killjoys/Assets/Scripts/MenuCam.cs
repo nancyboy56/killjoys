@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class MenuCam : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
+        Camera mainCamera = GetComponent<Camera>();
+        
         
     }
 
