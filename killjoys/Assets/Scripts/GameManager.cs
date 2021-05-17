@@ -67,9 +67,9 @@ public class GameManager : MonoBehaviour {
         {
             Tilemap map = tm.GetComponent<Tilemap>();
 
-            for (int y = -30; y < 50; y++)
+            for (int y = -50; y < 50; y++)
             {
-                for (int x = -30; x < 50; x++)
+                for (int x = -50; x < 50; x++)
                 {
                     if (map.HasTile(new Vector3Int(x, y, 0)))
                     {
