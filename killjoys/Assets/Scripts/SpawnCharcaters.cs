@@ -8,7 +8,7 @@ public class SpawnCharcaters : MonoBehaviour
     void Start()
     {
         GameObject party = Instantiate(Resources.Load("Prefabs/Players/Party_Poison", typeof(GameObject))) as GameObject;
-        party.transform.position = new Vector3(1, 5, 0);
+        party.transform.position = new Vector3(0, 0, 0);
 
         GameManager.Instance.AddPlayer(Killjoys.PartyPoison, party);
 
