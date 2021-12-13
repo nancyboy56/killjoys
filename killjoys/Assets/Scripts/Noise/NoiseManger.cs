@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum ColourType{
+public enum ColourType{
 	Random,
 	Red,
 	Monochrome
 }
 
-enum NoiseType
+public enum NoiseType
 {
 	Noise2D,
 	Perlin
@@ -25,6 +25,8 @@ public class NoiseManger : MonoBehaviour
 	public int seed = 10;
 	public int xMax = 10;
 	public int yMax = 10;
+	private int lastXMax = 10;
+	private int lastYMax = 10;
 	private uint maxColours;
 	private uint maxValue;
 	private uint randomScale;
@@ -34,11 +36,15 @@ public class NoiseManger : MonoBehaviour
 	private Dictionary<string, SpriteRenderer> renders = new Dictionary<string, SpriteRenderer>();
 	public ColourType currentColour;
 	public NoiseType currentNoise;
+	private int lastSeed;
 
 
 	// Start is called before the first frame update
 	void Start()
 	{
+		lastSeed = seed;
+		lastXMax = xMax;
+		lastYMax = yMax;
 		maxColours = (uint)Math.Pow(256.0, 3.0);
 		maxValue = 4294967295;
 		randomScale = maxValue / maxColours;
@@ -48,18 +54,19 @@ public class NoiseManger : MonoBehaviour
 
 	private void spawnSquares()
 	{
-		if (squares.Count == 0)
+		if (squares.Count != 0)
 		{
 			foreach(GameObject s in squares.Values)
 			{
 				Destroy(s);
 			}
 			squares = new Dictionary<string, GameObject>();
+			renders = new Dictionary<string, SpriteRenderer>();
 		}
-		
-		for (int i = -10; i < yMax; i++)
+		Debug.Log("sqaures:" + squares.Count);
+		for (int i = -yMax; i < yMax; i++)
 		{
-			for (int j = -10; j < xMax; j++)
+			for (int j = -xMax; j < xMax; j++)
 			{
 
 				GameObject sqaure = Instantiate(Resources.Load("Prefabs/Square")) as GameObject;
@@ -81,12 +88,11 @@ public class NoiseManger : MonoBehaviour
 	{
 		if(squares.Count > 0)
 		{
-			for (int i = -10; i < yMax; i++)
+			for (int i = -yMax; i < yMax; i++)
 			{
-				for (int j = -10; j < xMax; j++)
+				for (int j = -xMax; j < xMax; j++)
 				{
 					GameObject sqaure= squares[i + "," + j];
-					
 					
 					uint noise = UseNoiseType(i, j);
 					UseColourType(noise, i, j);
@@ -133,7 +139,23 @@ public class NoiseManger : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (lastSeed != seed)
+		{
+			spawnSquares();
+			lastSeed = seed;
+		}
 
+		if (lastXMax != xMax)
+		{
+			spawnSquares();
+			lastXMax = xMax;
+		}
+
+		if (lastYMax != yMax)
+		{
+			spawnSquares();
+			lastYMax = yMax;
+		}
 	}
 
 	public uint SquirrelNoise5(int positionX, int seed)
