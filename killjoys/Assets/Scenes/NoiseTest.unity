@@ -599,7 +599,7 @@ RectTransform:
   - {fileID: 642087110}
   - {fileID: 292459923}
   m_Father: {fileID: 782344668}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -3367,6 +3367,7 @@ GameObject:
   m_Component:
   - component: {fileID: 489553390}
   - component: {fileID: 489553391}
+  - component: {fileID: 489553392}
   m_Layer: 5
   m_Name: XSlider
   m_TagString: Untagged
@@ -3389,11 +3390,11 @@ RectTransform:
   - {fileID: 1919764679}
   - {fileID: 429234560}
   m_Father: {fileID: 782344668}
-  m_RootOrder: 10
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -220, y: -12}
+  m_AnchoredPosition: {x: -220, y: -15}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &489553391
@@ -3440,13 +3441,26 @@ MonoBehaviour:
   m_FillRect: {fileID: 508990688}
   m_HandleRect: {fileID: 70006947}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_MinValue: 10
+  m_MaxValue: 100
+  m_WholeNumbers: 1
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &489553392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489553389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75b6d0a6d7e66a34e8aa543d78747498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainSlider: {fileID: 489553391}
 --- !u!1 &508990687
 GameObject:
   m_ObjectHideFlags: 0
@@ -3783,7 +3797,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -220, y: 0}
+  m_AnchoredPosition: {x: -220, y: -3}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &746478131
@@ -4112,13 +4126,13 @@ RectTransform:
   - {fileID: 1828975426}
   - {fileID: 2129348322}
   - {fileID: 746478130}
+  - {fileID: 489553390}
   - {fileID: 172940162}
   - {fileID: 1836886310}
+  - {fileID: 968956450}
   - {fileID: 1175240788}
   - {fileID: 1231865510}
   - {fileID: 1109621220}
-  - {fileID: 968956450}
-  - {fileID: 489553390}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14467,6 +14481,7 @@ GameObject:
   m_Component:
   - component: {fileID: 968956450}
   - component: {fileID: 968956451}
+  - component: {fileID: 968956452}
   m_Layer: 5
   m_Name: YSlider
   m_TagString: Untagged
@@ -14489,11 +14504,11 @@ RectTransform:
   - {fileID: 1388243858}
   - {fileID: 1605201080}
   m_Father: {fileID: 782344668}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: -12}
+  m_AnchoredPosition: {x: -5, y: -15}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &968956451
@@ -14540,13 +14555,26 @@ MonoBehaviour:
   m_FillRect: {fileID: 6543522}
   m_HandleRect: {fileID: 457607038}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 0
+  m_MinValue: 10
+  m_MaxValue: 100
+  m_WholeNumbers: 1
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &968956452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 968956449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a604c815dd0b12e4a9b36f597dea987f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainSlider: {fileID: 968956451}
 --- !u!1 &1024840184
 GameObject:
   m_ObjectHideFlags: 0
@@ -14856,11 +14884,11 @@ RectTransform:
   - {fileID: 132831287}
   - {fileID: 251985698}
   m_Father: {fileID: 782344668}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -5}
+  m_AnchoredPosition: {x: 0, y: -10}
   m_SizeDelta: {x: 75, y: 30}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1109621221
@@ -15171,7 +15199,7 @@ RectTransform:
   - {fileID: 1174103886}
   - {fileID: 1158828714}
   m_Father: {fileID: 782344668}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -15388,11 +15416,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 782344668}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -40, y: 0}
+  m_AnchoredPosition: {x: -40, y: -3}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1231865511
@@ -16303,7 +16331,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -5}
+  m_AnchoredPosition: {x: 5, y: -7}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1828975427
@@ -16509,11 +16537,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 782344668}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -3}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1836886311
@@ -17215,7 +17243,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -5}
+  m_AnchoredPosition: {x: 200, y: -7}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2129348323
@@ -17271,6 +17299,8 @@ MonoBehaviour:
     - m_Text: Noise 2D
       m_Image: {fileID: 0}
     - m_Text: Perlin Noise
+      m_Image: {fileID: 0}
+    - m_Text: Noise Percentage
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

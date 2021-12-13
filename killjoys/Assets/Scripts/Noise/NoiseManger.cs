@@ -84,7 +84,12 @@ public class NoiseManger : MonoBehaviour
 		}
 	}
 
-	private void updateSquares()
+	private void removeSquares()
+	{
+		
+	}
+
+	private void updateColour()
 	{
 		if(squares.Count > 0)
 		{
