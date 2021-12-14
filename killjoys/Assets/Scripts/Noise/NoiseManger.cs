@@ -4,15 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum ColourType{
-	Random,
+	Hex,
 	Red,
-	Monochrome
+	Monochrome,
+	HSV,
+
 }
 
 public enum NoiseType
 {
 	Noise2D,
-	Perlin
+	Perlin,
+	NoisePercent,
 }
 
 public class NoiseManger : MonoBehaviour
@@ -27,15 +30,17 @@ public class NoiseManger : MonoBehaviour
 	public int yMax = 10;
 	private int lastXMax = 10;
 	private int lastYMax = 10;
-	private uint maxColours;
-	private uint maxValue;
-	private uint randomScale;
+	private uint maxHexColours;
+	private uint maxUint;
+	private uint hexscale;
 	private double ONE_OVER_MAX_INT = 1.0 / 0x7FFFFFFF;
 	private double ONE_OVER_MAX_UINT = 1.0 / 0xFFFFFFFF;
 	private Dictionary<string, GameObject> squares = new Dictionary<string, GameObject>();
 	private Dictionary<string, SpriteRenderer> renders = new Dictionary<string, SpriteRenderer>();
 	public ColourType currentColour;
 	public NoiseType currentNoise;
+	private ColourType lastColour;
+	private NoiseType lastNoise;
 	private int lastSeed;
 
 
@@ -45,11 +50,15 @@ public class NoiseManger : MonoBehaviour
 		lastSeed = seed;
 		lastXMax = xMax;
 		lastYMax = yMax;
-		maxColours = (uint)Math.Pow(256.0, 3.0);
-		maxValue = 4294967295;
-		randomScale = maxValue / maxColours;
+		lastColour = currentColour;
+		lastNoise = currentNoise;
+		maxHexColours = (uint) Math.Pow(256.0, 3.0);
+		maxUint = 4294967295;
+		hexscale = maxUint / maxHexColours;
+		currentColour = ColourType.Hex;
+		currentNoise = NoiseType.Noise2D;
 
-		spawnSquares();
+		//spawnSquares();
 	}
 
 	private void spawnSquares()
@@ -109,18 +118,63 @@ public class NoiseManger : MonoBehaviour
 
 	public void UseColourType(uint noise, int i, int j)
 	{
-		ColourRandom(noise, i, j);
+		if(currentColour == ColourType.Hex)
+		{
+			HexColour(noise, i, j);
+		} else if (currentColour == ColourType.HSV)
+		{
+
+		} 
+		else if(currentColour == ColourType.Monochrome)
+		{
+			Monocrhome();
+		}
+		else if (currentColour == ColourType.Monochrome)
+		{
+			Red();
+		}
+		else
+		{
+			HexColour(noise, i, j);
+		}
+
+
+	}
+
+	//need to add a seed some how unsure yet
+	public uint Perlin(int x, int y)
+	{
+		//convert to an uint bc thats what ive been using this whole time 
+		// it shouldnt change anything
+		return (uint) (Mathf.PerlinNoise(x, y)* Math.Pow(1.0, 9.0));
 	}
 
 	private uint UseNoiseType(int i, int j)
 	{
-		return Get2dNoiseUint(i, j, seed);
+		uint noise =0;
+		if(currentNoise== NoiseType.Noise2D)
+		{
+			noise = Get2dNoiseUint(i, j, seed);
+		} else if (currentNoise == NoiseType.NoisePercent)
+		{
+			double noiseDecmial = Get2dNoiseNegOneToOne(i, j, seed);
+			noise = (uint)(noiseDecmial * Math.Pow(1.0, 9.0));
+		} 
+		else if(currentNoise== NoiseType.Perlin)
+		{
+			noise = Perlin(i, j);
+		}
+		else
+		{
+			noise = Get2dNoiseUint(i, j, seed);
+		}
+		return noise;
 	}
 
-	private void ColourRandom(uint noise, int i, int j)
+	private void HexColour(uint noise, int i, int j)
 	{
 		Color newColour;
-		uint colour = noise / randomScale;
+		uint colour = noise / hexscale;
 
 		string myHex = colour.ToString("X");
 		Debug.Log("hex number: " + i + ", " + myHex);
