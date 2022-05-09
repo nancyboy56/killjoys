@@ -5,8 +5,8 @@ using UnityEngine;
 public class PerlinSample : MonoBehaviour
 {
     // Width and height of the texture in pixels.
-    public int pixWidth =256;
-    public int pixHeight =256;
+    public int width =256;
+    public int height =256;
 
 
 
@@ -14,8 +14,8 @@ public class PerlinSample : MonoBehaviour
     // over the width and height of the texture.
     public float scale = 20.0F;
 
-    private Texture2D noiseTex;
-    private Color[] pix;
+  //  private Texture2D noiseTex;
+   // private Color[] pix;
     private SpriteRenderer rend;
 
     void Start()
@@ -27,9 +27,9 @@ public class PerlinSample : MonoBehaviour
         //Debug.Log()
 
         // Set up the texture and a Color array to hold pixels during processing.
-        noiseTex = new Texture2D(pixWidth, pixHeight);
-        pix = new Color[noiseTex.width * noiseTex.height];
-        rend.sprite = Sprite.Create(GenerateTexture(), new Rect(0, 0, pixWidth, pixHeight), new Vector2(0.5f, 0.5f));
+        //noiseTex = new Texture2D(width, height);
+        //pix = new Color[noiseTex.width * noiseTex.height];
+        rend.sprite = Sprite.Create(GenerateTexture(), new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f));
        // rend.material.mainTexture= GenerateTexture();
         //rend.color = new Color(44/255f, 44/255f, 44/255f);
 
@@ -40,11 +40,11 @@ public class PerlinSample : MonoBehaviour
     private Texture2D GenerateTexture()
     {
        
-        Texture2D texture = new Texture2D(pixWidth, pixHeight);
+        Texture2D texture = new Texture2D(width, height);
 
-        for(int x =0; x< pixWidth; x++)
+        for(int x =0; x< width; x++)
         {
-            for(int y =0; y<pixHeight; y++)
+            for(int y =0; y<height; y++)
             {
                 //Debug.Log("Texture!!");
                 Color colour = CalculateColour(x, y);
@@ -57,8 +57,8 @@ public class PerlinSample : MonoBehaviour
 
     private Color CalculateColour(int x, int y)
     {
-        float xPerlin = (float)x / pixWidth *20f;
-        float yPerlin = (float)y / pixHeight *20f;
+        float xPerlin = (float)x / width *20f;
+        float yPerlin = (float)y / height *20f;
         float perlin= Mathf.PerlinNoise(xPerlin, yPerlin);
         return new Color(perlin, perlin, perlin);
     }

@@ -127,7 +127,7 @@ public class NoiseManger : MonoBehaviour
 		} 
 		else if(currentColour == ColourType.Monochrome)
 		{
-			Monocrhome();
+			Monocrhome(noise,i,j);
 		}
 		else if (currentColour == ColourType.Monochrome)
 		{
@@ -185,10 +185,20 @@ public class NoiseManger : MonoBehaviour
 		renders[i + "," + j].color = newColour;
 	}
 
-	private void Monocrhome()
+	private void Monocrhome(uint noise, int i, int j)
 	{
+		Color newColour;
+		uint colour = noise / hexscale;
 
+		string myHex = colour.ToString("X");
+		Debug.Log("hex number: " + i + ", " + myHex);
+
+		ColorUtility.TryParseHtmlString("#" + myHex, out newColour);
+
+		Debug.Log("Colour:" + newColour.r + "" + newColour.g + "" + newColour.b);
+		renders[i + "," + j].color = newColour;
 	}
+
 
 	private void Red()
 	{
