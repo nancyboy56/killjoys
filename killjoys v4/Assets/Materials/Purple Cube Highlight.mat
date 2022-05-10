@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Purple Cube
+  m_Name: Purple Cube Highlight
   m_Shader: {fileID: -6465566751694194690, guid: f9a8546e5d2b1f04884d5614f4e3d5a0,
     type: 3}
   m_ValidKeywords: []
