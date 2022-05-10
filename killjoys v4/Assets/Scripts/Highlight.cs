@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Highlight : MonoBehaviour
 {
-    private bool currentHighlight = false;
+    public bool currentHighlight = false;
     [SerializeField]
     private Material defaultMaterial;
     [SerializeField]

@@ -6,21 +6,23 @@ using UnityEngine.InputSystem;
 
 public class HighlightObjects : MonoBehaviour
 {
-    private PlayerInput ControllerInput;
+    private PlayerInput controllerInput;
     [SerializeField] public Camera objectCamera;
     private RaycastHit lastHit;
     private Highlight lastHitHighlight;
     // Start is called before the first frame update
     void Start()
     {
-        ControllerInput = GetComponent<PlayerInput>();
+        controllerInput = GetComponent<PlayerInput>();
+
+        controllerInput.actions["Click"].performed += content =>Click();
     }
 
     // Update is called once per frame
     void Update()
     {
         int layerMask = 1 << 6;
-        Ray ray = objectCamera.ScreenPointToRay(ControllerInput.actions["MousePosition"].ReadValue<Vector2>());
+        Ray ray = objectCamera.ScreenPointToRay(controllerInput.actions["MousePosition"].ReadValue<Vector2>());
         
         //the debug ray doesnt seem to work
         Debug.DrawRay(ray.origin, ray.direction, Color.magenta);
@@ -40,6 +42,8 @@ public class HighlightObjects : MonoBehaviour
                     highlight.HighlightObject(true);
                     lastHitHighlight = highlight;
                 }
+
+                
             }
             else
             {
@@ -56,6 +60,14 @@ public class HighlightObjects : MonoBehaviour
         }
 
 
+    }
+
+    public void Click()
+    {
+        if(lastHitHighlight!=null && lastHitHighlight.currentHighlight)
+        {
+            lastHitHighlight.OnClick();
+        }
     }
 
     private void UnhighlightLastObject()
