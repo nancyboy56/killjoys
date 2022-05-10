@@ -37,4 +37,9 @@ public class Highlight : MonoBehaviour
             r.material = defaultMaterial;
         }
     }
+
+    public void OnClick()
+    {
+        Debug.Log(name + " has been clicked!");
+    }
 }
