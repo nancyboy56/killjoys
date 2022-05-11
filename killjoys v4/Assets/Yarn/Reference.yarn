@@ -1,0 +1,57 @@
+title: Start
+position: -4,-92
+---
+The tale begins
+<<set $gender = "nb">>
+Monty: hey bestie whats up
+
+->Player: just haning out
+    Monty: [angry size=2]sounds lame bestie[/angry]
+    -> Player: that's mean 
+        Monty: nerd alert[nerd/]
+    -> Player: your lame \[ \]
+->Player: drawing
+    [mood=happy]Monty: ok you nerd [/mood]
+    <<set $nerd to true >>
+    <<set $nerdzzzz to "nerdy nerd">>
+    Monty: You {$nerdzzzz}
+    <<if $nerd is true>>
+        Monty: Even the program thinks ur a nerd
+    <<endif>>
+    -> Player: Fine I'm a nerd <<if $nerd is true>>
+    -> Player: ur a nerd
+    Monty: [nomarkup][][][][]][][ wowowow [/nomarkup]
+    I think [select value={$gender} m="he" f="she" nb="they" /] will be there!
+<<set $pie_count = 10>>
+    PieMaker: I just baked [plural value={$pie_count} one="a pie" other="% pies" /]
+    Runner: The race is over! I came in [ordinal value={$pie_count} one="%st" two="%nd" few="%rd" other="%th" /] place!
+
+    // Leave the dialogue now
+    <<stop>>
+
+// Leave the dialogue if we don't have enough money
+    <<if $money < 50>>
+        Shopkeeper: You can't afford my pies!
+    <<stop>>
+    <<endif>>
+
+    // Wait for 2 seconds
+    <<wait 2>>
+
+    // Inside an if statement:
+    <<if dice(6) == 6>>
+        You rolled a six!
+    <<endif>>
+
+// Inside a line:
+Gambler: My lucky number is {random_range(1,10)}!
+// the hashtag is a tag
+Homer: Hi, I'd like to order a tire balancing. #tone:sarcastic #duplicate
+
+
+===
+title: Node
+position: -64,64
+---
+
+===
