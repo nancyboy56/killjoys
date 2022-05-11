@@ -36,6 +36,6 @@ public class Movement : MonoBehaviour
             move.y *= moveLimiter;
         }
 
-        rb.velocity = new Vector3(move.x * speed, 0, move.y * speed);
+        rb.velocity = new Vector3(move.y * speed, 0, - (move.x * speed) );
     }
 }

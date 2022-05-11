@@ -9,6 +9,7 @@ public class RoomVisibility : MonoBehaviour
     private GameObject bottomLeft;
     private GameObject bottomRight;
     private GameObject ground;
+    private GameObject roomTrigger;
     private List<GameObject> childern = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
@@ -36,11 +37,16 @@ public class RoomVisibility : MonoBehaviour
             {
                 bottomLeft = child.gameObject;
             }
+            else if (child.tag.Equals("RoomTrigger"))
+            {
+                roomTrigger = child.gameObject;
+            }
             child.gameObject.SetActive(false);
         }
 
         bottomRight.SetActive(true);
         bottomLeft.SetActive(true);
+        roomTrigger.SetActive(true);
     }
 
     public void LeaveRoom()
@@ -52,6 +58,7 @@ public class RoomVisibility : MonoBehaviour
 
         bottomRight.SetActive(true);
         bottomLeft.SetActive(true);
+        roomTrigger.SetActive(true);
     }
 
     public void EnterRoom()
@@ -63,6 +70,7 @@ public class RoomVisibility : MonoBehaviour
 
         bottomRight.SetActive(false);
         bottomLeft.SetActive(false);
+        roomTrigger.SetActive(true);
     }
 
 

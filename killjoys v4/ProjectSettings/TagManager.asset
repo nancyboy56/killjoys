@@ -10,6 +10,7 @@ TagManager:
   - BottomRight
   - BottomLeft
   - Door
+  - RoomTrigger
   layers:
   - Default
   - TransparentFX

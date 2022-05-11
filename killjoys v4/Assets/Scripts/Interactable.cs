@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Highlight : MonoBehaviour
+public class Interactable : MonoBehaviour
 {
     public bool currentHighlight = false;
     [SerializeField]

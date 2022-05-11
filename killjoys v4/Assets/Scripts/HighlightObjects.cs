@@ -9,7 +9,7 @@ public class HighlightObjects : MonoBehaviour
     private PlayerInput controllerInput;
     [SerializeField] public Camera objectCamera;
     private RaycastHit lastHit;
-    private Highlight lastHitHighlight;
+    private Interactable lastHitHighlight;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,11 +33,11 @@ public class HighlightObjects : MonoBehaviour
             {
                 UnhighlightLastObject();
                 Debug.Log("New object: " + hit.transform.name);
-                Highlight highlight;
+                Interactable highlight;
 
                 // this is assume i put the colliders are the children and the 2d sprite as the game object
                 //i might change the order
-                if(hit.transform.parent.gameObject.TryGetComponent<Highlight>(out highlight))
+                if(hit.transform.parent.gameObject.TryGetComponent<Interactable>(out highlight))
                 {
                     highlight.HighlightObject(true);
                     lastHitHighlight = highlight;
