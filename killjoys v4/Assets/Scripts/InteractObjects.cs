@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class HighlightObjects : MonoBehaviour
+public class InteractObjects : MonoBehaviour
 {
     private PlayerInput controllerInput;
     [SerializeField] public Camera objectCamera;
     private RaycastHit lastHit;
-    private Interactable lastHitHighlight;
+    private IInteractable lastHovered;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,30 +33,29 @@ public class HighlightObjects : MonoBehaviour
             {
                 UnhighlightLastObject();
                 Debug.Log("New object: " + hit.transform.name);
-                Interactable highlight;
+                IInteractable item;
 
                 // this is assume i put the colliders are the children and the 2d sprite as the game object
                 //i might change the order
-                if(hit.transform.parent.gameObject.TryGetComponent<Interactable>(out highlight))
+                if(hit.transform.parent.gameObject.TryGetComponent<IInteractable>(out item))
                 {
-                    highlight.HighlightObject(true);
-                    lastHitHighlight = highlight;
+                    item.OnHover();
+                    lastHovered = item;
                 }
 
                 
             }
             else
             {
-                Debug.Log("Same Object: " + hit.transform.name);
+               
             }
             lastHit = hit;
-            Debug.Log("Hit:" + hit.transform.name);
-            //  Debug.Log("hit");
+            
         }
         else
         {
             UnhighlightLastObject();
-            //if(last)
+           
         }
 
 
@@ -64,18 +63,18 @@ public class HighlightObjects : MonoBehaviour
 
     public void Click()
     {
-        if(lastHitHighlight!=null && lastHitHighlight.currentHighlight)
+        if(lastHovered!=null)
         {
-            lastHitHighlight.OnClick();
+            lastHovered.OnInteract();
         }
     }
 
     private void UnhighlightLastObject()
     {
-        if (lastHitHighlight != null)
+        if (lastHovered != null)
         {
-            lastHitHighlight.HighlightObject(false);
-            lastHitHighlight = null;
+            lastHovered.LeaveHover();
+            lastHovered = null;
             Debug.Log("Unhilight: " + lastHit.transform.name);
         }
     }

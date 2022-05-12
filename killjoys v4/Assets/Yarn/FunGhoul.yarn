@@ -1,0 +1,67 @@
+﻿title: StartGhoul
+tags:
+---
+<<set $talkGhoul = true>>
+<<set $readScreen = false>>
+<<set $mainframe = false>>
+Ghoul leans over their desk furiously smashing their keyboard.
+Party: Hey Ghoul. What's up?
+Ghoul keeps typing and staring at their monitor.
+I walk over to Ghoul and lean against their desk.
+Thick bright green text lines their monitor.
+Party: Whacca doing?
+Ghoul squints at thier screen and doesnt say anything.
+I tap Ghouls' shoulder.
+Ghoul jumps their chair.
+Ghoul: What the--
+Ghoul: Party, go away.
+Party: What are you doing?
+Ghoul: Hacking into the BL/ind mainframe.
+->Party: Say: Sounds like serious stuff.
+    Ghoul: Some hardcore shit.
+    Ghoul: You won't get it
+    Party: Sounds Boring.
+->Party: Say: Mainframe?
+    <<set $mainframe = true>>
+    Ghoul: Nerd shit you wouldnt understand.
+    Party: I guess I wouldn't
+->Party: Read Screen
+    The screen reads: "Fireball does 11 of fire damage to the Orc Bandit"
+    Party: The orc bandit mainframe is seriously taking a lot of fire damage.
+    Ghoul: Oh shut up.
+    Party: So what are you doing?
+    Ghoul: You wouldnt understand.
+    Party: Try me.
+    Ghoul: I'm playing a MUD.
+    ->Party: A what?
+    ->Party: I play those all the time.
+        Ghoul: No you don't.
+    Ghoul: MUD. It's multple user dungoen host on peer to peer contention 
+    Party: Huh.
+    Ghoul: You kill monsters with poeple on the internet.
+    Party: Wow, who are you playing with?
+    Ghoul: You wouldnt know them
+    Party: I know everyone.
+    Ghoul: You don't know them though.
+    Party: Do they have a name?
+    Ghoul: Yes.
+    Party: Will you tell me?
+    Ghoul: No.
+    Party: Do they exist?
+    Ghoul: Sure.
+    Party: You're playing alone, aren't you?
+    Ghoul: No...
+    Party: We can play together!
+    Ghoul: We only have on computer.
+    Party: We can share!
+    Ghoul: Thats not how it works.
+    Party: Well, I'll borrow Dr D's computer.
+    Ghoul: How the blinding hell are you going to get it to your room.
+    Party: I'll play the MUD on his computer at his house!
+    Ghoul: Good luck.
+    Party: You will help me!
+    Ghoul: No, I won't.
+    I frown at Ghoul
+    <<set $readScreen = true>>
+
+===

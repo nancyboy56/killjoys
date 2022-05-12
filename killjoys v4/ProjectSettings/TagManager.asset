@@ -11,6 +11,11 @@ TagManager:
   - BottomLeft
   - Door
   - RoomTrigger
+  - NPC
+  - Object_Look
+  - Object_Look_Pickup
+  - Object
+  - DialogueSystem
   layers:
   - Default
   - TransparentFX

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+public class LookItem : MonoBehaviour, IInteractable
 {
     public bool currentHighlight = false;
     [SerializeField]
@@ -12,6 +12,8 @@ public class Interactable : MonoBehaviour
     [SerializeField]
     private Color clickDownColour;
     private Renderer r;
+    private GameObject dialouge;
+    private string dialougeNode;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +27,7 @@ public class Interactable : MonoBehaviour
     }
 
     //calls to hig
-    public void HighlightObject(bool highlight)
+    public void Highlight(bool highlight)
     {
         currentHighlight = highlight;
         if (currentHighlight)
@@ -40,6 +42,22 @@ public class Interactable : MonoBehaviour
 
     public void OnClick()
     {
+        
+    }
+
+    public void OnInteract()
+    {
+        // will display dialouge
         Debug.Log(name + " has been clicked!");
+    }
+
+    public void OnHover()
+    {
+        Highlight(true);
+    }
+
+    public void LeaveHover()
+    {
+        Highlight(false);
     }
 }
