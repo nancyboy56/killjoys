@@ -28,6 +28,15 @@ public class NPC : MonoBehaviour, IInteractable
     void Start()
     {
         dialogueRunner = FindObjectOfType<DialogueRunner>();
+        dialogueRunner.onDialogueComplete.AddListener(EndConversation);
+       
+    }
+
+    
+
+    public void EndConversation()
+    {
+
     }
 
     // Update is called once per frame

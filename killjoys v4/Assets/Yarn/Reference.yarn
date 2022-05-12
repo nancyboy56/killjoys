@@ -42,7 +42,7 @@ Monty: hey bestie whats up
     <<if dice(6) == 6>>
         You rolled a six!
     <<endif>>
-
+<<jump Node>>
 // Inside a line:
 Gambler: My lucky number is {random_range(1,10)}!
 // the hashtag is a tag
@@ -53,5 +53,5 @@ Homer: Hi, I'd like to order a tire balancing. #tone:sarcastic #duplicate
 title: Node
 position: -64,64
 ---
-
+wooo
 ===
