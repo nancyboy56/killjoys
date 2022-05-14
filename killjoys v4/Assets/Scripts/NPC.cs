@@ -27,7 +27,7 @@ public class NPC : MonoBehaviour, IInteractable
     private void StartConversation()
     {
         dialogueRunner.StartDialogue(startNode);
-        Time.timeScale = 0f;
+       // Time.timeScale = 0f;
     }
 
     // Start is called before the first frame update
@@ -42,7 +42,7 @@ public class NPC : MonoBehaviour, IInteractable
 
     public void EndConversation()
     {
-        Time.timeScale = 1f;
+       // Time.timeScale = 1f;
     }
 
     // Update is called once per frame
